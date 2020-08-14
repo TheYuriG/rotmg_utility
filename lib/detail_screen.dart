@@ -379,6 +379,9 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
   }
   return [
     Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      runAlignment: WrapAlignment.center,
       children: offers,
     )
   ];

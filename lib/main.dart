@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Icon themeSelector() {
+  Widget themeSelector() {
     if (settings['whiteTheme'] == false) {
       return Icon(
         Icons.wb_sunny,
