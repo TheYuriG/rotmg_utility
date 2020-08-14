@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'RealmEye Offers'),
+      home: MyHomePage(title: 'RotMG Utility'),
     );
   }
 }
