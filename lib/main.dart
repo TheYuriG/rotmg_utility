@@ -14,11 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RotMG Utility',
-      theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'RotMG Utility'),
+      home: MyHomePage(),
     );
   }
 }

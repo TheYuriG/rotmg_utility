@@ -18,18 +18,20 @@ class _TradingState extends State<Trading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: settings['primaryColor'],
       appBar: AppBar(
           automaticallyImplyLeading: false,
           titleSpacing: 0,
-          backgroundColor: settings['secondaryColor'],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           title: Center(
             child: Tooltip(
               message: "Trading Center",
               child: Text(
                 "Trading Center",
                 style: TextStyle(
-                    color: settings['primaryColor'],
+                    color: settings['secondaryColor'],
                     fontWeight: FontWeight.bold,
                     fontFamily: "PS2P",
                     fontSize: 10),
@@ -46,39 +48,17 @@ class _TradingState extends State<Trading> {
                 icon: Icon(
                   Icons.arrow_back,
                   size: 30,
-                  color: settings['primaryColor'],
+                  color: settings['secondaryColor'],
                 ),
               ),
             ),
           ),
           actions: [
             IconButton(
-                padding: EdgeInsets.all(0),
-                icon: Icon(
-                  Icons.check_box,
-                  color: settings['primaryColor'],
-                  size: 30,
-                ),
-                onPressed: () {
-                  if (settings['whiteTheme'] == false) {
-                    setState(() {
-                      settings['whiteTheme'] = true;
-                      settings['primaryColor'] = Colors.white;
-                      settings['secondaryColor'] = Colors.black;
-                    });
-                  } else {
-                    setState(() {
-                      settings['whiteTheme'] = false;
-                      settings['primaryColor'] = Colors.black;
-                      settings['secondaryColor'] = Colors.white;
-                    });
-                  }
-                }),
-            IconButton(
               padding: EdgeInsets.all(0),
               icon: Icon(
                 Icons.settings,
-                color: settings['primaryColor'],
+                color: settings['secondaryColor'],
                 size: 30,
               ),
               onPressed: () async {

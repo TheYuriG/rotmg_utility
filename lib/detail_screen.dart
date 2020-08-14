@@ -24,12 +24,14 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: settings['secondaryColor'],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: RawMaterialButton(
           child: Icon(
             Icons.arrow_back,
-            color: settings['primaryColor'],
+            color: settings['secondaryColor'],
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -57,7 +59,7 @@ class _DetailScreenState extends State<DetailScreen> {
             Text(
               imageInfo[0],
               style: TextStyle(
-                  color: settings['primaryColor'],
+                  color: settings['secondaryColor'],
                   fontWeight: FontWeight.bold,
                   fontFamily: "PS2P",
                   fontSize: 12),
