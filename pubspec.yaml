@@ -1,0 +1,37 @@
+name: rotmg_utility
+description: An utility tool for Realm of the Mad God.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.2.0
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  web_scraper: ^0.0.0
+  time_formatter: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/
+    - images/armor/
+    - images/weapons/
+    - images/pots/
+    - images/eggs/
+    - images/class/
+    - images/rings/
+    - images/chars/
+    - images/stars/
+    - assets/backgrounds/
+    - assets/
+  
+  fonts:
+    - family: PS2P
+      fonts:
+      - asset: fonts/PressStart2P-Regular.ttf
