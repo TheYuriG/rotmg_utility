@@ -1,33 +1,30 @@
 import 'main.dart';
 import 'data.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:time_formatter/time_formatter.dart';
 
 // ignore: must_be_immutable
-class DetailScreen extends StatefulWidget {
+class SpecificItem extends StatefulWidget {
   List _imageInfo;
   String _imageLink;
-  DetailScreen(this._imageInfo, this._imageLink);
+  SpecificItem(this._imageInfo, this._imageLink);
   @override
-  _DetailScreenState createState() =>
-      _DetailScreenState(_imageInfo, _imageLink);
+  _SpecificItemState createState() =>
+      _SpecificItemState(_imageInfo, _imageLink);
 }
 
 List<int> keys = [];
 
-class _DetailScreenState extends State<DetailScreen> {
+class _SpecificItemState extends State<SpecificItem> {
   List imageInfo;
   String imageLink;
-  _DetailScreenState(this.imageInfo, this.imageLink);
+  _SpecificItemState(this.imageInfo, this.imageLink);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: settings['primaryColor'],
         leading: RawMaterialButton(
           child: Icon(
             Icons.arrow_back,
@@ -77,7 +74,7 @@ class _DetailScreenState extends State<DetailScreen> {
               scale: 2,
               repeat: ImageRepeat.repeat),
         ),
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(0),
         child: FutureBuilder(
             future: retrieveItemOffers(imageLink),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -89,7 +86,12 @@ class _DetailScreenState extends State<DetailScreen> {
                       return snapshot.data[index];
                     });
               } else {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: settings['secondaryColor'],
+                    strokeWidth: 8,
+                  ),
+                );
               }
             }),
       ),

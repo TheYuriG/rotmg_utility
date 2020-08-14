@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'display_items.dart';
+import 'trading_items.dart';
 import 'data.dart';
 
 class Trading extends StatefulWidget {
@@ -10,20 +10,17 @@ class Trading extends StatefulWidget {
 }
 
 class _TradingState extends State<Trading> {
-  initState() {
-    DisplayItems(context);
-    super.initState();
-  }
+  // initState() {
+  //   TradingItems(context);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       backgroundColor: settings['primaryColor'],
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: settings['primaryColor'],
           elevation: 0,
           title: Center(
             child: Tooltip(
@@ -445,12 +442,12 @@ class _TradingState extends State<Trading> {
               },
             ),
           ]),
-      body: DisplayItems(context),
+      body: TradingItems(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: settings['secondaryColor'],
         onPressed: () {
           setState(() {
-            DisplayItems(context);
+            TradingItems();
           });
         },
         tooltip: 'Refresh',

@@ -1,24 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'data.dart';
-import 'detail_screen.dart';
+import 'specific_item.dart';
 import 'main.dart';
 
 // ignore: must_be_immutable
-class DisplayItems extends StatefulWidget {
-  BuildContext _context;
-  DisplayItems(this._context);
+class TradingItems extends StatefulWidget {
+  TradingItems({Key key}) : super(key: key);
 
   @override
-  _DisplayItemsState createState() => _DisplayItemsState(_context);
+  _TradingItemsState createState() => _TradingItemsState();
 }
 
-class _DisplayItemsState extends State<DisplayItems> {
-  BuildContext context;
-  _DisplayItemsState(this.context);
-
+class _TradingItemsState extends State<TradingItems> {
   Future<List<Widget>> renderItems() async {
-    Future<Map> scrapeOffers() async {
+    Future<Map> _scrapeOffers() async {
       // This is meant to be initial value so the app force renders something while it waits for the web requests to finish
       Map<String, dynamic> updatedOffers = {};
       // O IF statement abaixo conecta com a página e, em caso de sucesso, puxa informações de itens a venda e a serem comprados
@@ -73,14 +69,14 @@ class _DisplayItemsState extends State<DisplayItems> {
 
     // Lists all items fetched by the search request.
     Map<int, Map<String, String>> allOffers = {};
-    final data = await scrapeOffers();
+    final data = await _scrapeOffers();
 
     List<Widget> displayItems = [];
     if (settings['pots']) {
       for (List<String> pot in renderPotions) {
         if (data.containsKey(pot[0])) {
           displayItems
-              .add(addItem(pot, data[pot[0]], settings['secondaryColor']));
+              .add(_addItem(pot, data[pot[0]], settings['secondaryColor']));
           if (data[pot[0]]['buyLink'] != null) {
             allOffers[int.parse(
                 data[pot[0]]['buyLink'].replaceAll('/offers-to/buy/', ''))] = {
@@ -102,7 +98,7 @@ class _DisplayItemsState extends State<DisplayItems> {
       for (List<String> weapon in renderWeapons) {
         if (data.containsKey(weapon[0])) {
           displayItems.add(
-              addItem(weapon, data[weapon[0]], settings['secondaryColor']));
+              _addItem(weapon, data[weapon[0]], settings['secondaryColor']));
 
           if (data[weapon[0]]['buyLink'] != null) {
             allOffers[int.parse(data[weapon[0]]['buyLink']
@@ -124,7 +120,7 @@ class _DisplayItemsState extends State<DisplayItems> {
     if (settings['class']) {
       for (List<String> classItem in renderClassItems) {
         if (data.containsKey(classItem[0])) {
-          displayItems.add(addItem(
+          displayItems.add(_addItem(
               classItem, data[classItem[0]], settings['secondaryColor']));
           if (data[classItem[0]]['buyLink'] != null) {
             allOffers[int.parse(data[classItem[0]]['buyLink']
@@ -147,7 +143,7 @@ class _DisplayItemsState extends State<DisplayItems> {
       for (List<String> armor in renderArmor) {
         if (data.containsKey(armor[0])) {
           displayItems
-              .add(addItem(armor, data[armor[0]], settings['secondaryColor']));
+              .add(_addItem(armor, data[armor[0]], settings['secondaryColor']));
 
           if (data[armor[0]]['buyLink'] != null) {
             allOffers[int.parse(data[armor[0]]['buyLink']
@@ -170,7 +166,7 @@ class _DisplayItemsState extends State<DisplayItems> {
       for (List<String> ring in renderRings) {
         if (data.containsKey(ring[0])) {
           displayItems
-              .add(addItem(ring, data[ring[0]], settings['secondaryColor']));
+              .add(_addItem(ring, data[ring[0]], settings['secondaryColor']));
 
           if (data[ring[0]]['buyLink'] != null) {
             allOffers[int.parse(
@@ -193,7 +189,7 @@ class _DisplayItemsState extends State<DisplayItems> {
       for (List<String> egg in renderEggs) {
         if (data.containsKey(egg[0])) {
           displayItems
-              .add(addItem(egg, data[egg[0]], settings['secondaryColor']));
+              .add(_addItem(egg, data[egg[0]], settings['secondaryColor']));
 
           if (data[egg[0]]['buyLink'] != null) {
             allOffers[int.parse(
@@ -215,7 +211,7 @@ class _DisplayItemsState extends State<DisplayItems> {
     if (settings['st']) {
       for (List<String> theme in specialThemed) {
         if (data.containsKey(theme[0])) {
-          displayItems.add(addItem(theme, data[theme[0]], Colors.orange[700]));
+          displayItems.add(_addItem(theme, data[theme[0]], Colors.orange[700]));
           if (data[theme[0]]['buyLink'] != null) {
             allOffers[int.parse(data[theme[0]]['buyLink']
                 .replaceAll('/offers-to/buy/', ''))] = {
@@ -248,7 +244,7 @@ class _DisplayItemsState extends State<DisplayItems> {
     }
   }
 
-  Container addItem(List databaseItem, Map passedOffer, Color borderColor) {
+  Container _addItem(List databaseItem, Map passedOffer, Color borderColor) {
     return Container(
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -294,10 +290,10 @@ class _DisplayItemsState extends State<DisplayItems> {
             crossAxisAlignment: CrossAxisAlignment
                 .center, // Centraliza os botões de compra e venda horizontalmente.
             children: [
-              anySell(passedOffer['sellNumber'], databaseItem,
+              _anySell(passedOffer['sellNumber'], databaseItem,
                   passedOffer['sellLink']),
               SizedBox(height: 5),
-              anyBuy(passedOffer['buyNumber'], databaseItem,
+              _anyBuy(passedOffer['buyNumber'], databaseItem,
                   passedOffer['buyLink']),
             ],
           ),
@@ -306,19 +302,19 @@ class _DisplayItemsState extends State<DisplayItems> {
     );
   }
 
-  Widget anySell(dynamic sellers, List item, String sellLink) {
+  Widget _anySell(dynamic sellers, List item, String sellLink) {
     if (sellers != null) {
       return MaterialButton(
           color: Colors.red[700], // Pinta os botões de venda na cor vermelho.
           minWidth:
-              40, //Especifica a largura minima dos botões. Esse valor de 45 é suficiente para compreender números de 4 casas sem alteração no layout.
+              40, //Especifica a largura minima dos botões. Esse valor de 40 é suficiente para compreender números de 4 casas sem alteração no layout.
           height: 32,
           materialTapTargetSize: MaterialTapTargetSize
               .shrinkWrap, // Essa configuração remove a margem ao redor dos botões.
           padding: EdgeInsets.all(5),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) {
-              return DetailScreen(item, sellLink);
+              return SpecificItem(item, sellLink);
             }));
           },
           child: Tooltip(
@@ -333,7 +329,7 @@ class _DisplayItemsState extends State<DisplayItems> {
           materialTapTargetSize: MaterialTapTargetSize
               .shrinkWrap, // Essa configuração remove a margem ao redor dos botões.
           minWidth:
-              40, //Especifica a largura minima dos botões. Esse valor de 45 é suficiente para compreender números de 4 casas sem alteração no layout.
+              40, //Especifica a largura minima dos botões. Esse valor de 40 é suficiente para compreender números de 4 casas sem alteração no layout.
           height: 32,
           padding: EdgeInsets.all(5),
           onPressed: () {},
@@ -347,19 +343,19 @@ class _DisplayItemsState extends State<DisplayItems> {
     }
   }
 
-  Widget anyBuy(dynamic buyers, List item, String buyLink) {
+  Widget _anyBuy(dynamic buyers, List item, String buyLink) {
     if (buyers != null) {
       return MaterialButton(
         materialTapTargetSize: MaterialTapTargetSize
             .shrinkWrap, // Essa configuração remove a margem ao redor dos botões.
         color: Colors.blue[700], // Pinta os botões de compra na cor azul.
         minWidth:
-            40, //Especifica a largura minima dos botões. Esse valor de 45 é suficiente para compreender números de 4 casas sem alteração no layout.
+            40, //Especifica a largura minima dos botões. Esse valor de 40 é suficiente para compreender números de 4 casas sem alteração no layout.
         height: 32,
         padding: EdgeInsets.all(5),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return DetailScreen(item, buyLink);
+            return SpecificItem(item, buyLink);
           }));
         },
         child: Tooltip(
@@ -375,7 +371,7 @@ class _DisplayItemsState extends State<DisplayItems> {
         materialTapTargetSize: MaterialTapTargetSize
             .shrinkWrap, // Essa configuração remove a margem ao redor dos botões.
         minWidth:
-            40, //Especifica a largura minima dos botões. Esse valor de 45 é suficiente para compreender números de 4 casas sem alteração no layout.
+            40, //Especifica a largura minima dos botões. Esse valor de 40 é suficiente para compreender números de 4 casas sem alteração no layout.
         height: 32,
         padding: EdgeInsets.all(5),
         onPressed: () {},
@@ -392,50 +388,45 @@ class _DisplayItemsState extends State<DisplayItems> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(5.0),
-      child: FutureBuilder(
+    return FutureBuilder(
         future: renderItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
-            return ListView(
-              padding: EdgeInsets.all(0),
-              children: [
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  children: snapshot.data,
-                )
-              ],
-            );
+            return SingleChildScrollView(
+                child: Center(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runAlignment: WrapAlignment.center,
+                children: snapshot.data,
+              ),
+            ));
           } else {
             return Container(
               color: settings['primaryColor'],
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Tooltip(
-                message: "If this is taking too long, please press Refresh.",
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(
-                      backgroundColor: settings['secondaryColor'],
-                      strokeWidth: 8,
+                    Tooltip(
+                      message:
+                          "If this is taking too long, please press Refresh.",
+                      child: CircularProgressIndicator(
+                        backgroundColor: settings['secondaryColor'],
+                        strokeWidth: 8,
+                      ),
                     ),
                     SizedBox(height: 10),
-                    Text("Now fetching current offers...",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
+                    Text(
+                      "Now fetching current offers...",
+                      style: TextStyle(
+                          color: Colors.grey, fontWeight: FontWeight.bold),
+                    ),
+                  ]),
             );
           }
-        },
-      ),
-    );
+        });
   }
 }
