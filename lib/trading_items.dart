@@ -4,6 +4,9 @@ import 'data.dart';
 import 'specific_item.dart';
 import 'main.dart';
 
+// Lists all items fetched by the search request.
+Map<int, Map<String, String>> allOffers = {};
+
 // ignore: must_be_immutable
 class TradingItems extends StatefulWidget {
   TradingItems({Key key}) : super(key: key);
@@ -67,8 +70,6 @@ class _TradingItemsState extends State<TradingItems> {
       return updatedOffers;
     }
 
-    // Lists all items fetched by the search request.
-    Map<int, Map<String, String>> allOffers = {};
     final data = await _scrapeOffers();
 
     List<Widget> displayItems = [];
@@ -228,7 +229,6 @@ class _TradingItemsState extends State<TradingItems> {
         }
       }
     }
-    // print(allOffers);
 
     if (displayItems.length > 0) {
       return displayItems;

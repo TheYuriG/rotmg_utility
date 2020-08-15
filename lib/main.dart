@@ -30,14 +30,52 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Widget themeSelector() {
     if (settings['whiteTheme'] == false) {
-      return Icon(
-        Icons.wb_sunny,
-        color: settings['secondaryColor'],
+      return Container(
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(width: 3, color: Colors.blue[300]),
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+        ),
+        child: Tooltip(
+          message: "Switch to ice theme!",
+          child: IconButton(
+              icon: Icon(
+                Icons.ac_unit,
+                color: Colors.blue[300],
+              ),
+              onPressed: () {
+                setState(() {
+                  settings['whiteTheme'] = true;
+                  settings['primaryColor'] = Colors.white;
+                  settings['secondaryColor'] = Colors.blue[300];
+                });
+              }),
+        ),
       );
     } else {
-      return Icon(
-        Icons.brightness_3,
-        color: settings['secondaryColor'],
+      return Container(
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(width: 3, color: Colors.grey[700]),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+        ),
+        child: Tooltip(
+          message: "Switch to dark theme!",
+          child: IconButton(
+              icon: Icon(
+                Icons.brightness_3,
+                color: Colors.grey[700],
+              ),
+              onPressed: () {
+                setState(() {
+                  settings['whiteTheme'] = false;
+                  settings['primaryColor'] = Colors.black;
+                  settings['secondaryColor'] = Colors.grey[700];
+                });
+              }),
+        ),
       );
     }
   }
@@ -200,36 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  border:
-                      Border.all(width: 3, color: settings['secondaryColor']),
-                  color: settings['primaryColor'],
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                ),
-                child: Tooltip(
-                  message: "Switch between dark and light themes!",
-                  child: IconButton(
-                    icon: themeSelector(),
-                    onPressed: () {
-                      if (settings['whiteTheme'] == false) {
-                        setState(() {
-                          settings['whiteTheme'] = true;
-                          settings['primaryColor'] = Colors.white;
-                          settings['secondaryColor'] = Colors.black;
-                        });
-                      } else {
-                        setState(() {
-                          settings['whiteTheme'] = false;
-                          settings['primaryColor'] = Colors.black;
-                          settings['secondaryColor'] = Colors.white;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              )
+              themeSelector()
             ]),
           )),
     );

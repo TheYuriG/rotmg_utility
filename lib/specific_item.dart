@@ -1,3 +1,4 @@
+// import 'package:rotmg_utility/trading_items.dart';
 import 'main.dart';
 import 'data.dart';
 import 'package:flutter/material.dart';
@@ -109,27 +110,43 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
   // print("Loading offer page started");
   if (await webScraper.loadWebPage(link)) {
     // Items que você precisa entregar para fechar negócio
-    final List<Map<String, dynamic>> offerOut =
-        webScraper.getElement('table#g > tbody > tr > td:first-child', []);
+    List offerOut = [];
+    webScraper.getElement('table#g > tbody > tr > td:first-child', []).forEach(
+      (element) {
+        offerOut.add(element['title'].replaceAll('×', " ").trim().split(" "));
+      },
+    );
     // print(offerOut);
-    // print(offerOut.length);
 
     // Ids dos items que você precisa entregar para fechar negócio
-    final List<Map<String, dynamic>> offerOutIds = webScraper.getElement(
+    List offerOutIds = [];
+    webScraper.getElement(
         'table#g > tbody > tr > td:first-child > span.item-static > span.item',
-        ['data-item']);
-    // print("Offer Out ids: $offerOutIds");
-    // print("Offer Out ids length: ${offerOutIds.length}");
+        ['data-item']).forEach(
+      (element) {
+        offerOutIds.add(element['attributes']['data-item']);
+      },
+    );
+    print("Offer Out ids: $offerOutIds");
 
     // Items que você vai receber ao fechar negócio
-    final List<Map<String, dynamic>> offerIn =
-        webScraper.getElement('table#g > tbody > tr > td:nth-child(1)', []);
+    List offerIn = [];
+    webScraper.getElement('table#g > tbody > tr > td:nth-child(1)', []).forEach(
+      (element) {
+        offerIn.add(element['title'].replaceAll('×', " ").trim().split(" "));
+      },
+    );
     // print(offerIn);
 
     // Ids dos items que você vao receber ao fechar negócio
-    final List<Map<String, dynamic>> offerInIds = webScraper.getElement(
+    List offerInIds = [];
+    webScraper.getElement(
         'table#g > tbody > tr > td:nth-child(1) > span.item-static  > span.item',
-        ['data-item']);
+        ['data-item']).forEach(
+      (element) {
+        offerInIds.add(element['attributes']['data-item']);
+      },
+    );
     // print(offerInIds);
 
     // data de quando a oferta foi postada
@@ -157,6 +174,8 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
     // e organizar eles no objeto consensedOffers;
     for (var i = 0; i < offerUser.length; i++) {
       // print("fetching users");
+      // ! if (allOffers.containsKey(offerOutIds[i][0]['attributes']["data-item"]) &&
+      // !    allOffers.containsKey(offerInIds[i][0]['attributes']["data-item"])) {
       condensedOffers.addAll({
         i: {'user': offerUser[i]['title']}
       });
@@ -182,44 +201,45 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
       } else {
         condensedOffers[i]['server'] = null;
       }
+      condensedOffers[i]['offerOut'] = offerOut[i];
+      condensedOffers[i]['offerIn'] = offerIn[i];
+      //! }
+      //   // Esse for in loop vai retirar os items oferecidos e
+      //   // suas IDs de offerOut e offerOutID e organizar eles no objeto consensedOffers;
+      //   int j = 0;
+      //   for (var l = 0; l < offerOut.length; l++) {
+      //     List outList = [];
+      //     for (var k = 0; k < offerOut[k].length; k++) {
+      //       outList.add(offerOutIds[j]);
+      //       j++;
+      //     }
+      //     condensedOffers[l]['offerOutIds'] = outList;
+      //   }
+
+      //   // Esse for in loop vai retirar os items oferecidos e
+      //   // suas IDs de offerIn e offerInId e organizar eles no objeto consensedOffers;
+      //   j = 0;
+      //   for (var l = 0; l < offerIn.length; l++) {
+      //     List inList = [];
+
+      //     for (var k = 0; k < offerIn[k].length; k++) {
+      //       inList.add(offerInIds[j]);
+      //       j++;
+      //     }
+      //     condensedOffers[l]['offerInIds'] = inList;
+      //   }
     }
+    // Essa variavel é difinida quando a classe é construída e ela guarda a
+    // a ordem dos items organizados por tempo de postagem.
+    // Essa variavel é depois usada para renderizar os objetos nessa ordem também,
+    // através de keys[i]
+    keys = condensedOffers.keys.toList();
+    keys.sort((k1, k2) =>
+        (condensedOffers[k2]['time'] - condensedOffers[k1]['time']));
+  }
 
-    // Esse for in loop vai retirar os items oferecidos e
-    // suas IDs de offerOut e offerOutID e organizar eles no objeto consensedOffers;
-    int j = 0;
-    for (var i = 0; i < offerOut.length; i++) {
-      List<String> outList = offerOut[i]['title'].split("×");
-      condensedOffers[i]['offerOut'] = {};
-      for (var k = 1; k < outList.length; k++) {
-        condensedOffers[i]['offerOut']
-            [offerOutIds[j]['attributes']['data-item']] = outList[k];
-        j++;
-      }
-    }
-
-    // Esse for in loop vai retirar os items oferecidos e
-    // suas IDs de offerIn e offerInId e organizar eles no objeto consensedOffers;
-    j = 0;
-    for (var i = 0; i < offerIn.length; i++) {
-      List<String> inList = offerIn[i]['title'].split("×");
-      condensedOffers[i]['offerIn'] = {};
-      for (var k = 1; k < inList.length; k++) {
-        condensedOffers[i]['offerIn']
-            [offerInIds[j]['attributes']['data-item']] = inList[k];
-        j++;
-      }
-
-      // Essa variavel é difinida quando a classe é construída e ela guarda a
-      // a ordem dos items organizados por tempo de postagem.
-      // Essa variavel é depois usada para renderizar os objetos nessa ordem também,
-      // através de keys[i]
-      keys = condensedOffers.keys.toList();
-      keys.sort((k1, k2) =>
-          (condensedOffers[k2]['time'] - condensedOffers[k1]['time']));
-    }
-
-    // print(condensedOffers);
-
+  // print(condensedOffers);
+  if (keys.isNotEmpty) {
     for (var i = 0; i < keys.length; i++) {
       offers.add(Container(
         // width: 170,
@@ -380,13 +400,22 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         ),
       ));
     }
+
+    return [
+      Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runAlignment: WrapAlignment.spaceBetween,
+        children: offers,
+      )
+    ];
+  } else {
+    return [
+      Center(
+        child: Container(
+          child: Text("No offers here!"),
+        ),
+      )
+    ]; //! Requer mais teste!
   }
-  return [
-    Wrap(
-      alignment: WrapAlignment.center,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      runAlignment: WrapAlignment.spaceBetween,
-      children: offers,
-    )
-  ];
 }

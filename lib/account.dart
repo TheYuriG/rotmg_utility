@@ -592,3 +592,8 @@
 //   }
 //   return classStars;
 // }
+
+// // Essa variável limpa as estatisticas de summaryObject e organiza elas
+// Map<String, String> summaryData = {};
+// // Essa variavel guarda a cor da estrela da conta, para fácil acesso em outros locais.
+// Image starColor;

@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Essa variável limpa as estatisticas de summaryObject e organiza elas
-Map<String, String> summaryData = {};
-// Essa variavel guarda a cor da estrela da conta, para fácil acesso em outros locais.
-Image starColor;
-
 // Config file for settings on what to display.
 // In the future, the app will give a menu to change these settings and they will
 // be saved somewhere else and then loaded in here using the ReadStream function.
@@ -17,17 +12,15 @@ Map<String, dynamic> settings = {
   'class': true,
   'st': true,
   'primaryColor': Colors.white,
-  'secondaryColor': Colors.black,
+  'secondaryColor': Colors.blue[300],
   'whiteTheme': true,
   'playerTracker': true,
   'playerId': "TheYuriG",
 };
 
-// This will set the image name and location to be used in the Hero animation
-List heroImage = [];
-
 List<Map> sellingItems;
 List<Map> buyingItems;
+
 // List containing all potions, plus Wine Cellar Incantantion.
 List<List<String>> renderPotions = [
   ["Potion of Defense", "images/pots/defpot.png"],
@@ -49,6 +42,7 @@ List<List<String>> renderPotions = [
   ["Any Pot", "images/pots/mystery.png"],
   ["Wine Cellar Incantation", "images/pots/inc.png"]
 ];
+
 // List containing basic weapons
 List<List<String>> renderWeapons = [
   ["Staff of Necrotic Arcana", "images/weapons/stafft9.png"],
@@ -76,6 +70,7 @@ List<List<String>> renderWeapons = [
   ["Muramasa", "images/weapons/katanat11.png"],
   ["Masamune", "images/weapons/katanat12.png"]
 ];
+
 // List containing basic armor
 List<List<String>> renderArmor = [
   ["Robe of the Master", "images/armor/robet9.png"],
@@ -94,6 +89,7 @@ List<List<String>> renderArmor = [
   ["Griffon Hide Armor", "images/armor/hidet12.png"],
   ["Hydra Skin Armor", "images/armor/hidet13.png"],
 ];
+
 // List containing basic class items (skills)
 List<List<String>> renderClassItems = [
   ["Cloak of Endless Twilight", "images/class/cloakt5.png"],
@@ -129,6 +125,7 @@ List<List<String>> renderClassItems = [
   ["Regal Lute", "images/class/lutet5.png"],
   ["Skyward Lute", "images/class/lutet6.png"]
 ];
+
 // List containing rings
 List<List<String>> renderRings = [
   ["Ring of Paramount Attack", "images/rings/atkt4.png"],
@@ -157,6 +154,7 @@ List<List<String>> renderRings = [
   ["Ring of Unbound Magic", "images/rings/manat6.png"],
   ["Ring of Decades", "images/rings/deca.png"]
 ];
+
 // List containing eggs
 List<List<String>> renderEggs = [
   ["Common Feline Egg", "images/eggs/cfeline.png"],
@@ -190,6 +188,7 @@ List<List<String>> renderEggs = [
   ["Uncommon Automaton Egg", "images/eggs/uncautomaton.png"],
   ["Uncommon Mystery Egg", "images/eggs/uncmystery.png"]
 ];
+
 // List containing the ST equips
 List<List<String>> specialThemed = [
   // This is the Phylactery Mystic Set (source: https://www.realmeye.com/wiki/phylactery-mystic-set)
