@@ -26,6 +26,7 @@ class _SpecificItemState extends State<SpecificItem> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: settings['primaryColor'],
+        centerTitle: true,
         leading: RawMaterialButton(
           child: Icon(
             Icons.arrow_back,
@@ -34,7 +35,7 @@ class _SpecificItemState extends State<SpecificItem> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Hero(
               tag: imageInfo[0],

@@ -10,11 +10,6 @@ class Trading extends StatefulWidget {
 }
 
 class _TradingState extends State<Trading> {
-  // initState() {
-  //   TradingItems(context);
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +17,7 @@ class _TradingState extends State<Trading> {
       appBar: AppBar(
           backgroundColor: settings['primaryColor'],
           elevation: 0,
+          centerTitle: true,
           title: Center(
             child: Tooltip(
               message: "Trading Center",
@@ -37,16 +33,14 @@ class _TradingState extends State<Trading> {
           ),
           leading: Tooltip(
             message: "Return to the main menu",
-            child: Center(
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  size: 30,
-                  color: settings['secondaryColor'],
-                ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: settings['secondaryColor'],
               ),
             ),
           ),
