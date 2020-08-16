@@ -1,4 +1,4 @@
-// import 'package:rotmg_utility/trading_items.dart';
+import 'package:rotmg_utility/trading_items.dart';
 import 'main.dart';
 import 'data.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +116,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         offerOut.add(element['title'].replaceAll('×', " ").trim().split(" "));
       },
     );
-    // print(offerOut);
+    // print("Offer Out numbers: $offerOut");
 
     // Ids dos items que você precisa entregar para fechar negócio
     List offerOutIds = [];
@@ -127,7 +127,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         offerOutIds.add(element['attributes']['data-item']);
       },
     );
-    print("Offer Out ids: $offerOutIds");
+    // print("Out Ids: $offerOutIds");
 
     // Items que você vai receber ao fechar negócio
     List offerIn = [];
@@ -136,7 +136,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         offerIn.add(element['title'].replaceAll('×', " ").trim().split(" "));
       },
     );
-    // print(offerIn);
+    // print("In numbers: $offerIn");
 
     // Ids dos items que você vao receber ao fechar negócio
     List offerInIds = [];
@@ -147,7 +147,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         offerInIds.add(element['attributes']['data-item']);
       },
     );
-    // print(offerInIds);
+    // print("In Ids $offerInIds");
 
     // data de quando a oferta foi postada
     final List<Map<String, dynamic>> offerWhen = webScraper.getElement(
@@ -169,15 +169,14 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         webScraper.getElement('table#g > tbody > tr > td:nth-child(7)', []);
     // print(offerServer);
 
+    // print(allOffers);
+
     // Esse for loop vai retirar os usuários de offerUser, os servidores de offerServer,
     // a data da oferta de offerWhen e última visualização de offerLastSeen
     // e organizar eles no objeto consensedOffers;
     for (var i = 0; i < offerUser.length; i++) {
-      // print("fetching users");
-      // ! if (allOffers.containsKey(offerOutIds[i][0]['attributes']["data-item"]) &&
-      // !    allOffers.containsKey(offerInIds[i][0]['attributes']["data-item"])) {
       condensedOffers.addAll({
-        i: {'user': offerUser[i]['title']}
+        i: {'user': offerUser[i]['title'], "skip": false}
       });
       // print("fetching last seen");
       DateTime seen = DateTime(0);
@@ -203,33 +202,39 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
       }
       condensedOffers[i]['offerOut'] = offerOut[i];
       condensedOffers[i]['offerIn'] = offerIn[i];
-      //! }
-      //   // Esse for in loop vai retirar os items oferecidos e
-      //   // suas IDs de offerOut e offerOutID e organizar eles no objeto consensedOffers;
-      //   int j = 0;
-      //   for (var l = 0; l < offerOut.length; l++) {
-      //     List outList = [];
-      //     for (var k = 0; k < offerOut[k].length; k++) {
-      //       outList.add(offerOutIds[j]);
-      //       j++;
-      //     }
-      //     condensedOffers[l]['offerOutIds'] = outList;
-      //   }
-
-      //   // Esse for in loop vai retirar os items oferecidos e
-      //   // suas IDs de offerIn e offerInId e organizar eles no objeto consensedOffers;
-      //   j = 0;
-      //   for (var l = 0; l < offerIn.length; l++) {
-      //     List inList = [];
-
-      //     for (var k = 0; k < offerIn[k].length; k++) {
-      //       inList.add(offerInIds[j]);
-      //       j++;
-      //     }
-      //     condensedOffers[l]['offerInIds'] = inList;
-      //   }
     }
-    // Essa variavel é difinida quando a classe é construída e ela guarda a
+
+    // Esse for in loop vai retirar os items oferecidos e
+    // suas IDs de offerOut e offerOutID e organizar eles no objeto consensedOffers;
+    int j = 0;
+    for (var l = 0; l < offerOut.length; l++) {
+      List outList = [];
+      for (var k = 0; k < offerOut[l].length; k++) {
+        if (!allOffers.containsKey(int.parse(offerOutIds[j]))) {
+          condensedOffers[l]['skip'] = true;
+        }
+        outList.add(int.parse(offerOutIds[j]));
+        j++;
+      }
+      condensedOffers[l]['offerOutIds'] = outList;
+    }
+    // Esse for in loop vai retirar os items oferecidos e
+    // suas IDs de offerIn e offerInId e organizar eles no objeto consensedOffers;
+    j = 0;
+    for (var l = 0; l < offerIn.length; l++) {
+      List inList = [];
+      // ignore: unused_local_variable
+      for (String k in offerIn[l]) {
+        if (!allOffers.containsKey(int.parse(offerInIds[j]))) {
+          condensedOffers[l]['skip'] = true;
+        }
+        inList.add(int.parse(offerInIds[j]));
+        j++;
+      }
+      condensedOffers[l]['offerInIds'] = inList;
+    }
+
+    // Essa variavel é definida quando a classe é construída e ela guarda a
     // a ordem dos items organizados por tempo de postagem.
     // Essa variavel é depois usada para renderizar os objetos nessa ordem também,
     // através de keys[i]
@@ -240,40 +245,233 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
 
   // print(condensedOffers);
   if (keys.isNotEmpty) {
+    // print(allOffers);
     for (var i = 0; i < keys.length; i++) {
-      offers.add(Container(
-        // width: 170,
-        // height: 135, //change this value once
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            border: Border.all(width: 3, color: settings['secondaryColor']),
-            color: settings['primaryColor'],
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            boxShadow: [
-              BoxShadow(
-                  color: settings['secondaryColor'],
-                  offset: Offset(2, 2),
-                  blurRadius: 2)
-            ]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "${condensedOffers[keys[i]]['user']}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: "PS2P",
-                  fontSize: 10,
-                  color: settings['secondaryColor']),
-            ),
-            if (condensedOffers[keys[i]]['server'] != null)
-              Padding(
-                padding: const EdgeInsets.all(5.0),
+      if (!condensedOffers[keys[i]]['skip'] &&
+          condensedOffers[keys[i]]['offerOut'].length < 5 &&
+          condensedOffers[keys[i]]['offerIn'].length < 5) {
+        offers.add(Container(
+          // width: 170,
+          // height: 135, //change this value once
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              border: Border.all(width: 3, color: settings['secondaryColor']),
+              color: settings['primaryColor'],
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+              boxShadow: [
+                BoxShadow(
+                    color: settings['secondaryColor'],
+                    offset: Offset(2, 2),
+                    blurRadius: 2)
+              ]),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "${condensedOffers[keys[i]]['user']}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: "PS2P",
+                    fontSize: 10,
+                    color: settings['secondaryColor']),
+              ),
+              if (condensedOffers[keys[i]]['server'] != null)
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "at ${condensedOffers[keys[i]]['server']}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "PS2P",
+                        fontSize: 10,
+                        color: settings['secondaryColor']),
+                  ),
+                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.end,
+                    children: [
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 0)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerOutIds'][0]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerOutIds']
+                                [0]]['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 0)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerOut'][0]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 1)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerOutIds'][1]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerOutIds']
+                                [1]]['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 1)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerOut'][1]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 2)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerOutIds'][2]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerOutIds']
+                                [2]]['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 2)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerOut'][2]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 3)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerOutIds'][3]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerOutIds']
+                                [3]]['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerOutIds'].length > 3)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerOut'][3]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                    ],
+                  ),
+                  Tooltip(
+                    message: 'Trade ← for →',
+                    child: Icon(
+                      Icons.arrow_forward,
+                      size: 20,
+                      color: settings['secondaryColor'],
+                    ),
+                  ),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.end,
+                    children: [
+                      if (condensedOffers[keys[i]]['offerInIds'].length > 0)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerInIds'][0]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerInIds'][0]]
+                                ['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerIn'].length > 0)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerIn'][0]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                      if (condensedOffers[keys[i]]['offerInIds'].length > 1)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerInIds'][1]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerInIds'][1]]
+                                ['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerIn'].length > 1)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerIn'][1]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                      if (condensedOffers[keys[i]]['offerInIds'].length > 2)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerInIds'][2]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerInIds'][2]]
+                                ['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerIn'].length > 2)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerIn'][2]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                      if (condensedOffers[keys[i]]['offerInIds'].length > 3)
+                        Tooltip(
+                          message: allOffers[condensedOffers[keys[i]]
+                              ['offerInIds'][3]]['name'],
+                          child: Image.asset(
+                            allOffers[condensedOffers[keys[i]]['offerInIds'][3]]
+                                ['imageLocation'],
+                            width: 30,
+                            height: 30,
+                          ),
+                        ),
+                      if (condensedOffers[keys[i]]['offerIn'].length > 3)
+                        Text(
+                          "x${condensedOffers[keys[i]]['offerIn'][3]}",
+                          style: TextStyle(
+                              fontFamily: "PS2P",
+                              fontSize: 8,
+                              color: settings['secondaryColor']),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 5),
+              Tooltip(
+                message:
+                    "This considers the closest time between player's last seen timestamp (if avaiable) and offer posting timestamp.\nBy default, RealmEye displays offers by post time that while often proven useful, tends to be irrelevant if the user went offline since.\nBy using this medium, we intend to reduce in-game failed messaging as much as possible.",
                 child: Text(
-                  "at ${condensedOffers[keys[i]]['server']}",
+                  formatTime(condensedOffers[keys[i]]['time']),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: "PS2P",
@@ -281,124 +479,12 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                       color: settings['secondaryColor']),
                 ),
               ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Tooltip(
-                          message: "Potion of Defense",
-                          child: Image.asset(
-                            "images/pots/defpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                        Tooltip(
-                          message: "Potion of Defense",
-                          child: Image.asset(
-                            "images/pots/defpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Tooltip(
-                          message: "Potion of Defense",
-                          child: Image.asset(
-                            "images/pots/defpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                        Tooltip(
-                          message: "Potion of Defense",
-                          child: Image.asset(
-                            "images/pots/defpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Tooltip(
-                  message: 'Trade ← for →',
-                  child: Icon(
-                    Icons.arrow_forward,
-                    size: 20,
-                    color: settings['secondaryColor'],
-                  ),
-                ),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Tooltip(
-                          message: "Potion of Attack",
-                          child: Image.asset(
-                            "images/pots/atkpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                        Tooltip(
-                          message: "Potion of Attack",
-                          child: Image.asset(
-                            "images/pots/atkpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Tooltip(
-                          message: "Potion of Attack",
-                          child: Image.asset(
-                            "images/pots/atkpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                        Tooltip(
-                          message: "Potion of Attack",
-                          child: Image.asset(
-                            "images/pots/atkpot.png",
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            Tooltip(
-              message:
-                  "This considers the closest time between player's last seen timestamp (if avaiable) and offer posting timestamp.\nBy default, RealmEye displays offers by post time that while often proven useful, tends to be irrelevant if the user went offline since.\nBy using this medium, we intend to reduce in-game failed messaging as much as possible.",
-              child: Text(
-                formatTime(condensedOffers[keys[i]]['time']),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: "PS2P",
-                    fontSize: 10,
-                    color: settings['secondaryColor']),
-              ),
-            ),
-          ],
-        ),
-      ));
+            ],
+          ),
+        ));
+      } else {
+        print("terminating cycle");
+      }
     }
 
     return [
@@ -409,13 +495,18 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         children: offers,
       )
     ];
-  } else {
-    return [
-      Center(
-        child: Container(
-          child: Text("No offers here!"),
-        ),
-      )
-    ]; //! Requer mais teste!
   }
+  return [
+    Center(
+      child: Container(
+        child: Text(
+          "No offers here!",
+          style: TextStyle(
+              color: settings['secondaryColor'],
+              fontSize: 15,
+              fontFamily: "P2SP"),
+        ),
+      ),
+    )
+  ]; //! Requer mais teste!
 }
