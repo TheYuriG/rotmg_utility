@@ -113,7 +113,12 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
     List offerOut = [];
     webScraper.getElement('table#g > tbody > tr > td:first-child', []).forEach(
       (element) {
-        offerOut.add(element['title'].replaceAll('×', " ").trim().split(" "));
+        offerOut.add(element['title']
+            .replaceAll('×', " ")
+            .trim()
+            .split(" ")
+            .map(int.parse)
+            .toList());
       },
     );
     // print("Offer Out numbers: $offerOut");
@@ -133,7 +138,12 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
     List offerIn = [];
     webScraper.getElement('table#g > tbody > tr > td:nth-child(1)', []).forEach(
       (element) {
-        offerIn.add(element['title'].replaceAll('×', " ").trim().split(" "));
+        offerIn.add(element['title']
+            .replaceAll('×', " ")
+            .trim()
+            .split(" ")
+            .map(int.parse)
+            .toList());
       },
     );
     // print("In numbers: $offerIn");
@@ -202,6 +212,12 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
       }
       condensedOffers[i]['offerOut'] = offerOut[i];
       condensedOffers[i]['offerIn'] = offerIn[i];
+      if (offerOut[i].reduce((a, b) => a + b) > 8 ||
+          offerIn[i].reduce((a, b) => a + b) > 8) {
+        print(
+            "The #$i position item is getting removed due to having too many items.");
+        condensedOffers[i]['skip'] = true;
+      }
     }
 
     // Esse for in loop vai retirar os items oferecidos e
@@ -224,7 +240,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
     for (var l = 0; l < offerIn.length; l++) {
       List inList = [];
       // ignore: unused_local_variable
-      for (String k in offerIn[l]) {
+      for (int k in offerIn[l]) {
         if (!allOffers.containsKey(int.parse(offerInIds[j]))) {
           condensedOffers[l]['skip'] = true;
         }
@@ -252,7 +268,8 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
           condensedOffers[keys[i]]['offerIn'].length < 5) {
         offers.add(Container(
           // width: 170,
-          // height: 135, //change this value once
+          // height: 135, //! not having these values set in stone causes the containers to have the sizes they want.
+          //! Consider fixing values for these, for design purposes.
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
@@ -310,7 +327,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 0)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][0]}",
+                          "x${condensedOffers[keys[i]]['offerOut'][0].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -329,7 +346,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 1)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][1]}",
+                          "x${condensedOffers[keys[i]]['offerOut'][1].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -348,7 +365,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 2)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][2]}",
+                          "x${condensedOffers[keys[i]]['offerOut'][2].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -367,7 +384,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 3)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][3]}",
+                          "x${condensedOffers[keys[i]]['offerOut'][3].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -399,7 +416,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 0)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][0]}",
+                          "x${condensedOffers[keys[i]]['offerIn'][0].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -418,7 +435,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 1)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][1]}",
+                          "x${condensedOffers[keys[i]]['offerIn'][1].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -437,7 +454,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 2)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][2]}",
+                          "x${condensedOffers[keys[i]]['offerIn'][2].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -456,7 +473,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 3)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][3]}",
+                          "x${condensedOffers[keys[i]]['offerIn'][3].toString()}",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -482,9 +499,10 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
             ],
           ),
         ));
-      } else {
-        print("terminating cycle");
       }
+      //  else {
+      //   print("terminating cycle");
+      // }
     }
 
     return [
