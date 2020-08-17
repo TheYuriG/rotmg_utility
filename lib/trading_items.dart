@@ -394,14 +394,15 @@ class _TradingItemsState extends State<TradingItems> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             return SingleChildScrollView(
-                child: Center(
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                runAlignment: WrapAlignment.center,
-                children: snapshot.data,
+              child: Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  children: snapshot.data,
+                ),
               ),
-            ));
+            );
           } else {
             return Container(
               color: settings['primaryColor'],

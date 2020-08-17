@@ -321,6 +321,8 @@ class _AccountState extends State<Account> {
           ],
         ),
         body: Container(
+          // height: MediaQuery.of(context).size.height,
+          // width: MediaQuery.of(context).size.width,
           color: settings['primaryColor'],
           child: FutureBuilder(
               future: charsList(),
@@ -329,6 +331,7 @@ class _AccountState extends State<Account> {
                     snapshot.connectionState == ConnectionState.done) {
                   return Center(
                     child: Column(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -713,11 +716,16 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                         if (snapshot.data.length != 0)
-                          SingleChildScrollView(
-                            child: Wrap(
-                              alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: snapshot.data,
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Center(
+                                child: Wrap(
+                                  alignment: WrapAlignment.center,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  runAlignment: WrapAlignment.center,
+                                  children: snapshot.data,
+                                ),
+                              ),
                             ),
                           ),
                         if (snapshot.data.length == 0)
@@ -800,6 +808,19 @@ class _AccountState extends State<Account> {
                   );
                 }
               }),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: settings['secondaryColor'],
+          onPressed: () {
+            setState(() {
+              settings['playerTracker'] = true;
+            });
+          },
+          tooltip: 'Refresh',
+          child: Icon(
+            Icons.refresh,
+            color: settings['primaryColor'],
+          ),
         ),
       );
     }
