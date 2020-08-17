@@ -13,6 +13,263 @@ class _TradingState extends State<Trading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: Drawer(
+        child: SingleChildScrollView(
+          child: Container(
+            color: settings['primaryColor'],
+            child: Column(
+              children: [
+                DrawerHeader(
+                  child: Text(
+                    "Filter menu",
+                    style: TextStyle(
+                        color: settings['secondaryColor'],
+                        fontFamily: "PS2P",
+                        fontSize: 10),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          "Offers for potions and inc?",
+                          style: TextStyle(
+                              color: settings['secondaryColor'],
+                              fontFamily: "PS2P",
+                              fontSize: 10),
+                        ),
+                        value: settings['pots'],
+                        onChanged: (bool value) {
+                          setState(() {
+                            settings['pots'] = value;
+                          });
+                        }),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for weapons, ranging from Tier 9 to Tier 12, excluding event/time limited weapons.",
+                    child: CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          "Offers for weapons?",
+                          style: TextStyle(
+                              color: settings['secondaryColor'],
+                              fontFamily: "PS2P",
+                              fontSize: 10),
+                        ),
+                        value: settings['weapons'],
+                        onChanged: (bool value) {
+                          setState(() {
+                            settings['weapons'] = value;
+                          });
+                        }),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal abilities, from Tiers 5 and 6, excluding event/time limited abilities.",
+                    child: CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          "Offers for class abilities?",
+                          style: TextStyle(
+                              color: settings['secondaryColor'],
+                              fontFamily: "PS2P",
+                              fontSize: 10),
+                        ),
+                        value: settings['class'],
+                        onChanged: (bool value) {
+                          setState(() {
+                            settings['class'] = value;
+                          });
+                        }),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for armors, ranging from Tier 9 to Tier 13, excluding event/time limited armors",
+                    child: CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          "Offers for armor?",
+                          style: TextStyle(
+                              color: settings['secondaryColor'],
+                              fontFamily: "PS2P",
+                              fontSize: 10),
+                        ),
+                        value: settings['armor'],
+                        onChanged: (bool value) {
+                          setState(() {
+                            settings['armor'] = value;
+                          });
+                        }),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for rings, ranging from Tier 4 to Tier 6, including Ring of Decades (Deca) and excluding event/time limited rings.",
+                    child: CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          "Offers for rings?",
+                          style: TextStyle(
+                              color: settings['secondaryColor'],
+                              fontFamily: "PS2P",
+                              fontSize: 10),
+                        ),
+                        value: settings['rings'],
+                        onChanged: (bool value) {
+                          setState(() {
+                            settings['rings'] = value;
+                          });
+                        }),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for common and uncommon eggs.",
+                    child: CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          "Offers for eggs?",
+                          style: TextStyle(
+                              color: settings['secondaryColor'],
+                              fontFamily: "PS2P",
+                              fontSize: 10),
+                        ),
+                        value: settings['eggs'],
+                        onChanged: (bool value) {
+                          setState(() {
+                            settings['eggs'] = value;
+                          });
+                        }),
+                  ),
+                ),
+                Container(
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 5, color: settings['secondaryColor']),
+                        color: settings['primaryColor'],
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: settings['secondaryColor'],
+                              offset: Offset(2, 2),
+                              blurRadius: 3)
+                        ]),
+                    child: Tooltip(
+                      message:
+                          "Enable/disable offers for the 2 (two) currently tradeable true ST sets (although the pieces are mislabeled as UTs at the time this was made). These are considered \"true\" sets for being the only sets that will grant a transformation and set piece bonuses for each equipped piece. If all Oryxmax gear was tradeable and avaiable, it would be considered to be included, despite lacking a transformation.",
+                      child: CheckboxListTile(
+                          contentPadding: EdgeInsets.all(0),
+                          title: Text(
+                            "Offers for True* STs?",
+                            style: TextStyle(
+                                color: settings['secondaryColor'],
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: settings['st'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              settings['st'] = value;
+                            });
+                          }),
+                    )),
+              ],
+            ),
+          ),
+        ),
+      ),
       backgroundColor: settings['primaryColor'],
       appBar: AppBar(
           backgroundColor: settings['primaryColor'],
@@ -45,394 +302,19 @@ class _TradingState extends State<Trading> {
             ),
           ),
           actions: [
-            IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(
-                Icons.settings,
-                color: settings['secondaryColor'],
-                size: 30,
-              ),
-              onPressed: () async {
-                await showDialog<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: settings['primaryColor'],
-                      title: Center(
-                        child: Text(
-                          'Change offer filters!',
-                          style: TextStyle(
-                              color: settings['secondaryColor'],
-                              fontFamily: "PS2P",
-                              fontSize: 12),
-                        ),
-                      ),
-                      content: Container(
-                        width: 420,
-                        child: Wrap(
-                          children: [
-                            Container(
-                              width: 190,
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5,
-                                      color: settings['secondaryColor']),
-                                  color: settings['primaryColor'],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: settings['secondaryColor'],
-                                        offset: Offset(2, 2),
-                                        blurRadius: 3)
-                                  ]),
-                              child: Tooltip(
-                                message:
-                                    "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                                child: RawMaterialButton(
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    child: Text(
-                                      "Potions",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {
-                                      if (settings['pots']) {
-                                        setState(() {
-                                          settings['pots'] = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          settings['pots'] = true;
-                                        });
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Container(
-                              width: 190,
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5,
-                                      color: settings['secondaryColor']),
-                                  color: settings['primaryColor'],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: settings['secondaryColor'],
-                                        offset: Offset(2, 2),
-                                        blurRadius: 3)
-                                  ]),
-                              child: Tooltip(
-                                message:
-                                    "Enable/disable offers for weapons, ranging from Tier 9 to Tier 12, excluding event/time limited weapons.",
-                                child: RawMaterialButton(
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    child: Text(
-                                      "Weapons",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {
-                                      if (settings['weapons']) {
-                                        setState(() {
-                                          settings['weapons'] = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          settings['weapons'] = true;
-                                        });
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Container(
-                              width: 190,
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5,
-                                      color: settings['secondaryColor']),
-                                  color: settings['primaryColor'],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: settings['secondaryColor'],
-                                        offset: Offset(2, 2),
-                                        blurRadius: 3)
-                                  ]),
-                              child: Tooltip(
-                                message:
-                                    "Enable/disable offers for normal abilities, from Tiers 5 and 6, excluding event/time limited abilities.",
-                                child: RawMaterialButton(
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    child: Text(
-                                      "Abilities",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {
-                                      if (settings['class']) {
-                                        setState(() {
-                                          settings['class'] = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          settings['class'] = true;
-                                        });
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Container(
-                              width: 190,
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5,
-                                      color: settings['secondaryColor']),
-                                  color: settings['primaryColor'],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: settings['secondaryColor'],
-                                        offset: Offset(2, 2),
-                                        blurRadius: 3)
-                                  ]),
-                              child: Tooltip(
-                                message:
-                                    "Enable/disable offers for armors, ranging from Tier 9 to Tier 13, excluding event/time limited armors",
-                                child: RawMaterialButton(
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    child: Text(
-                                      "Armor",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {
-                                      if (settings['armor']) {
-                                        setState(() {
-                                          settings['armor'] = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          settings['armor'] = true;
-                                        });
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Container(
-                              width: 190,
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5,
-                                      color: settings['secondaryColor']),
-                                  color: settings['primaryColor'],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: settings['secondaryColor'],
-                                        offset: Offset(2, 2),
-                                        blurRadius: 3)
-                                  ]),
-                              child: Tooltip(
-                                message:
-                                    "Enable/disable offers for rings, ranging from Tier 4 to Tier 6, including Ring of Decades (Deca) and excluding event/time limited rings.",
-                                child: RawMaterialButton(
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    child: Text(
-                                      "Rings",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {
-                                      if (settings['rings']) {
-                                        setState(() {
-                                          settings['rings'] = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          settings['rings'] = true;
-                                        });
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Container(
-                              width: 190,
-                              height: 50,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5,
-                                      color: settings['secondaryColor']),
-                                  color: settings['primaryColor'],
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: settings['secondaryColor'],
-                                        offset: Offset(2, 2),
-                                        blurRadius: 3)
-                                  ]),
-                              child: Tooltip(
-                                message:
-                                    "Enable/disable offers for common and uncommon eggs.",
-                                child: RawMaterialButton(
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    child: Text(
-                                      "Eggs",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {
-                                      if (settings['eggs']) {
-                                        setState(() {
-                                          settings['eggs'] = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          settings['eggs'] = true;
-                                        });
-                                      }
-                                    }),
-                              ),
-                            ),
-                            Container(
-                                width: 190,
-                                height: 50,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 5,
-                                        color: settings['secondaryColor']),
-                                    color: settings['primaryColor'],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: settings['secondaryColor'],
-                                          offset: Offset(2, 2),
-                                          blurRadius: 3)
-                                    ]),
-                                child: Tooltip(
-                                  message:
-                                      "Enable/disable offers for the 2 (two) currently tradeable true ST sets (although the pieces are mislabeled as UTs at the time this was made). These are considered \"true\" sets for being the only sets that will grant a transformation and set piece bonuses for each equipped piece. If all Oryxmax gear was tradeable and avaiable, it would be considered to be included, despite lacking a transformation.",
-                                  child: RawMaterialButton(
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      child: Text(
-                                        "True* STs",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                      onPressed: () {
-                                        if (settings['st']) {
-                                          setState(() {
-                                            settings['st'] = false;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            settings['st'] = true;
-                                          });
-                                        }
-                                      }),
-                                )),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 5,
-                                    color: settings['secondaryColor']),
-                                color: settings['primaryColor'],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: settings['secondaryColor'],
-                                      offset: Offset(2, 2),
-                                      blurRadius: 3)
-                                ]),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                'Save settings',
-                                style: TextStyle(
-                                    color: settings['secondaryColor'],
-                                    fontFamily: "PS2P",
-                                    fontSize: 10),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
+            Builder(builder: (BuildContext context) {
+              return IconButton(
+                padding: EdgeInsets.all(0),
+                icon: Icon(
+                  Icons.settings,
+                  color: settings['secondaryColor'],
+                  size: 30,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
+            }),
           ]),
       body: TradingItems(),
       floatingActionButton: FloatingActionButton(

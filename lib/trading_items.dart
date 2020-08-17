@@ -230,18 +230,7 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (displayItems.length > 0) {
-      return displayItems;
-    } else {
-      return [
-        Center(
-          child: Text(
-            "Nothing avaiable to display!\nTry changing some filters?",
-            style: TextStyle(color: settings['secondaryColor'], fontSize: 20),
-          ),
-        )
-      ];
-    }
+    return displayItems;
   }
 
   Container _addItem(List databaseItem, Map passedOffer, Color borderColor) {
@@ -256,8 +245,7 @@ class _TradingItemsState extends State<TradingItems> {
                 color: settings['secondaryColor'],
                 offset: Offset(3, 3),
                 blurRadius: 2)
-          ]), //? boxDeco is the decoration of the boxes.
-      //? it's defined at the end of this dart code and is used on every display option.
+          ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment
             .center, // Alinha todos os itens dessa linha horizontalmente.
@@ -392,7 +380,7 @@ class _TradingItemsState extends State<TradingItems> {
         future: renderItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
+              snapshot.data.isNotEmpty) {
             return SingleChildScrollView(
               child: Center(
                 child: Wrap(
@@ -401,6 +389,18 @@ class _TradingItemsState extends State<TradingItems> {
                   runAlignment: WrapAlignment.center,
                   children: snapshot.data,
                 ),
+              ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data.isEmpty) {
+            return Center(
+              child: RawMaterialButton(
+                child: Text(
+                  "Nothing avaiable to display!\nTry changing some filters?",
+                  style: TextStyle(
+                      color: settings['secondaryColor'], fontSize: 20),
+                ),
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
               ),
             );
           } else {
