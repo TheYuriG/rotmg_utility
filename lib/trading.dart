@@ -70,8 +70,6 @@ class _TradingState extends State<Trading> {
                       content: Container(
                         width: 420,
                         child: Wrap(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          // mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
                               width: 190,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'account.dart';
 import 'trading.dart';
 import 'package:web_scraper/web_scraper.dart';
 import 'data.dart';
@@ -188,12 +189,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (_) {
-                  //     return Trading();
-                  //   }),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) {
+                      return Account();
+                    }),
+                  );
                 },
               ),
               SizedBox(height: 5),
