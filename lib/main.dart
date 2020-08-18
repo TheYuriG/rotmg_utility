@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'account.dart';
+import 'dailies.dart';
 import 'trading.dart';
 import 'package:web_scraper/web_scraper.dart';
 import 'data.dart';
@@ -43,13 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
           child: IconButton(
               icon: Icon(
                 Icons.ac_unit,
-                color: Colors.blue[300],
+                color: Colors.blue[700],
               ),
               onPressed: () {
                 setState(() {
                   settings['whiteTheme'] = true;
-                  settings['primaryColor'] = Colors.white;
-                  settings['secondaryColor'] = Colors.blue[300];
+                  settings['primaryColor'] = Colors.blue[100];
+                  settings['secondaryColor'] = Colors.blue[700];
                 });
               }),
         ),
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
           border: Border.all(width: 3, color: Colors.grey[700]),
-          color: Colors.white,
+          color: Colors.blue[100],
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         child: Tooltip(
@@ -200,12 +201,12 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(height: 5),
               RawMaterialButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (_) {
-                  //     return Trading();
-                  //   }),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) {
+                      return Dailies();
+                    }),
+                  );
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
