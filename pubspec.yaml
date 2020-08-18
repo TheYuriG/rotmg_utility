@@ -29,6 +29,11 @@ flutter:
     - images/rings/
     - images/chars/
     - images/stars/
+    - images/quests/beginner/
+    - images/quests/epic/
+    - images/quests/mighty/
+    - images/quests/rewards/
+    - images/quests/standart/
     - assets/backgrounds/
     - assets/
 
