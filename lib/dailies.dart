@@ -1022,11 +1022,12 @@ class _DailyBodyState extends State<DailyBody> {
       ]
     }
   };
-
+  bool _itemColor1 = false; //! as variáveis que vigiam as cores precisam ser
+  //! definidas e guardadas fora da função para que seja feito o
+  //! controle delas ao longo da manutenção da página.
   dailyTracker() {
     List<Widget> tracking = [];
     if (dailiesSettings['craft']) {
-      bool _itemColor1 = false;
       Map craft = {
         1: [
           "Title",

@@ -66,8 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Tooltip(
           message: "Switch to dark theme!",
           child: IconButton(
-              icon: Icon(
-                Icons.brightness_3,
+              icon: Image.asset(
+                "assets/moon.ico",
                 color: Colors.grey[700],
               ),
               onPressed: () {
