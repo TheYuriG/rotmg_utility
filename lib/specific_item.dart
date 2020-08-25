@@ -268,9 +268,6 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
           condensedOffers[keys[i]]['offerOut'].length < 5 &&
           condensedOffers[keys[i]]['offerIn'].length < 5) {
         offers.add(Container(
-          // width: 170,
-          // height: 135, //! not having these values set in stone causes the containers to have the sizes they want.
-          //! Consider fixing values for these, for design purposes.
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
@@ -286,7 +283,6 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "${condensedOffers[keys[i]]['user']}",
@@ -327,12 +323,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 0)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][0].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerOut'][0].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 1)
                         Tooltip(
@@ -346,12 +345,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 1)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][1].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerOut'][1].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 2)
                         Tooltip(
@@ -365,12 +367,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 2)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][2].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerOut'][2].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 3)
                         Tooltip(
@@ -384,12 +389,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 3)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerOut'][3].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerOut'][3].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                     ],
                   ),
@@ -416,12 +424,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 0)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][0].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerIn'][0].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                       if (condensedOffers[keys[i]]['offerInIds'].length > 1)
                         Tooltip(
@@ -435,12 +446,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 1)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][1].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerIn'][1].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                       if (condensedOffers[keys[i]]['offerInIds'].length > 2)
                         Tooltip(
@@ -455,7 +469,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 2)
                         Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][2].toString()}",
+                          "${condensedOffers[keys[i]]['offerIn'][2].toString()}x",
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
@@ -473,12 +487,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerIn'].length > 3)
-                        Text(
-                          "x${condensedOffers[keys[i]]['offerIn'][3].toString()}",
-                          style: TextStyle(
-                              fontFamily: "PS2P",
-                              fontSize: 8,
-                              color: settings['secondaryColor']),
+                        Container(
+                          width: 10,
+                          child: Text(
+                            "${condensedOffers[keys[i]]['offerIn'][3].toString()}x",
+                            style: TextStyle(
+                                fontFamily: "PS2P",
+                                fontSize: 8,
+                                color: settings['secondaryColor']),
+                          ),
                         ),
                     ],
                   ),
@@ -501,9 +518,6 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
           ),
         ));
       }
-      //  else {
-      //   print("terminating cycle");
-      // }
     }
 
     return [
@@ -527,5 +541,5 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         ),
       ),
     )
-  ]; //! Requer mais teste!
+  ];
 }

@@ -12,6 +12,7 @@ dependencies:
   web_scraper: ^0.0.0
   time_formatter: ^1.0.0
   shared_preferences: ^0.5.8
+  hive: ^1.4.4
 
 dev_dependencies:
   flutter_test:
@@ -42,3 +43,4 @@ flutter:
     - family: PS2P
       fonts:
         - asset: fonts/PressStart2P-Regular.ttf
+

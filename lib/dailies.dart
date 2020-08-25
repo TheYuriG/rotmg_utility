@@ -11,13 +11,13 @@ class Dailies extends StatefulWidget {
 //? Esse mapa guarda a informação de settings em relação ao que o usuário quer mostrar ou ignorar.
 //? Ele pode ser alterado pelo endDrawer que você ativa apertando o botão de action na appBar ou puxando a lateral direita da tela.
 Map<String, bool> dailiesSettings = {
-  "craft": true,
-  "beginner": true,
+  "craft": false,
+  "beginner": false,
   "scout": true,
   "standart": true,
   "mighty": true,
-  "epic": true,
-  "listMode": false,
+  "epic": false,
+  "listMode": true,
 };
 
 //? Essa lista guarda as quests removidas manualmente pelo usuário clicando no botão X de cada item da lista.
@@ -30,377 +30,27 @@ List filteredQuests = [];
 Map checkedTracker = {};
 
 class _DailiesState extends State<Dailies> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //? o endDrawer é responsável por organizar os filtros dessa página.
-      //? Ele pode ser acessado puxando a lateral direita da página ou apertando o botão de settings na appBar
-      endDrawer: Container(
-        padding: EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width * 0.4,
-        color: settings['primaryColor'],
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: 50,
-                child: DrawerHeader(
-                  child: Text(
-                    "Quest Filters",
-                    style: TextStyle(
-                        color: settings['secondaryColor'],
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PS2P",
-                        fontSize: 15),
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 5, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: settings['secondaryColor'],
-                          offset: Offset(2, 2),
-                          blurRadius: 3)
-                    ]),
-                child: Tooltip(
-                  message:
-                      "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                  child: CheckboxListTile(
-                    secondary: Image.asset('images/pots/glifepot.png'),
-                    title: Text(
-                      "Enable/Disable Crafting Quests",
-                      style: TextStyle(
-                          color: settings['secondaryColor'],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 10),
-                    ),
-                    value: dailiesSettings['craft'],
-                    onChanged: (bool value) {
-                      setState(() {
-                        dailiesSettings['craft'] = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 5, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: settings['secondaryColor'],
-                          offset: Offset(2, 2),
-                          blurRadius: 3)
-                    ]),
-                child: Tooltip(
-                  message:
-                      "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                  child: CheckboxListTile(
-                    secondary:
-                        Image.asset('images/quests/rewards/beginnerchest.png'),
-                    title: Text(
-                      "Enable/Disable Beginner Quests",
-                      style: TextStyle(
-                          color: settings['secondaryColor'],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 10),
-                    ),
-                    value: dailiesSettings['beginner'],
-                    onChanged: (bool value) {
-                      setState(() {
-                        dailiesSettings['beginner'] = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 5, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: settings['secondaryColor'],
-                          offset: Offset(2, 2),
-                          blurRadius: 3)
-                    ]),
-                child: Tooltip(
-                  message:
-                      "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                  child: CheckboxListTile(
-                    secondary: Image.asset('images/pots/mysterypot.png'),
-                    title: Text(
-                      "Enable/Disable Scout Quests",
-                      style: TextStyle(
-                          color: settings['secondaryColor'],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 10),
-                    ),
-                    value: dailiesSettings['scout'],
-                    onChanged: (bool value) {
-                      setState(() {
-                        dailiesSettings['scout'] = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 5, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: settings['secondaryColor'],
-                          offset: Offset(2, 2),
-                          blurRadius: 3)
-                    ]),
-                child: Tooltip(
-                  message:
-                      "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                  child: CheckboxListTile(
-                    secondary:
-                        Image.asset('images/quests/rewards/standartchest.png'),
-                    title: Text(
-                      "Enable/Disable Standart Quests",
-                      style: TextStyle(
-                          color: settings['secondaryColor'],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 10),
-                    ),
-                    value: dailiesSettings['standart'],
-                    onChanged: (bool value) {
-                      setState(() {
-                        dailiesSettings['standart'] = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 5, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: settings['secondaryColor'],
-                          offset: Offset(2, 2),
-                          blurRadius: 3)
-                    ]),
-                child: Tooltip(
-                  message:
-                      "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                  child: CheckboxListTile(
-                    secondary:
-                        Image.asset('images/quests/rewards/mightychest.png'),
-                    title: Text(
-                      "Enable/Disable Mighty Quests",
-                      style: TextStyle(
-                          color: settings['secondaryColor'],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 10),
-                    ),
-                    value: dailiesSettings['mighty'],
-                    onChanged: (bool value) {
-                      setState(() {
-                        dailiesSettings['mighty'] = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 5, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: settings['secondaryColor'],
-                          offset: Offset(2, 2),
-                          blurRadius: 3)
-                    ]),
-                child: Tooltip(
-                  message:
-                      "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                  child: CheckboxListTile(
-                    secondary:
-                        Image.asset('images/quests/rewards/voidepicchest.png'),
-                    title: Text(
-                      "Enable/Disable Epic Quests",
-                      style: TextStyle(
-                          color: settings['secondaryColor'],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 10),
-                    ),
-                    value: dailiesSettings['epic'],
-                    onChanged: (bool value) {
-                      setState(() {
-                        dailiesSettings['epic'] = value;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      appBar: AppBar(
-        centerTitle:
-            true, //? Centraliza o título considerando o espaço total da appBar, ao invés de usar apenas o tamanho restante padrão
-        backgroundColor: settings['primaryColor'],
-        elevation:
-            0, //? remove a sombra do fundo que dá impressão da appBar estar acima do resto do conteudo.
-        title: Tooltip(
-          message: "Dailies Tracker",
-          child: Text(
-            "Dailies Tracker",
-            style: TextStyle(
-                color: settings['secondaryColor'],
-                fontWeight: FontWeight.bold,
-                fontFamily: "PS2P",
-                fontSize: 10),
-          ),
-        ),
-        leading: Tooltip(
-          message: "Return to the main menu",
-          child: Center(
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30,
-                color: settings['secondaryColor'],
-              ),
+  Widget resetTrackedProgress() {
+    if (checkedTracker.containsValue(true)) {
+      return Tooltip(
+        message: "Reset all tracked progress",
+        child: IconButton(
+            icon: Icon(
+              Icons.refresh,
+              size: 30,
+              color: settings['secondaryColor'],
             ),
-          ),
-        ),
-        actions: [
-          //? Esse botão alterna entre o modo lista e o modo completo.
-          Tooltip(
-            message: 'Toogle !List Mode" to filter all quests faster',
-            child: IconButton(
-                icon: Icon(
-                  Icons.list,
-                  size: 30,
-                  color: settings['secondaryColor'],
-                ),
-                onPressed: () {
-                  if (dailiesSettings['listMode']) {
-                    setState(() {
-                      dailiesSettings['listMode'] = false;
-                    });
-                  } else {
-                    setState(() {
-                      dailiesSettings['listMode'] = true;
-                    });
-                  }
-                }),
-          ),
-          // if (filteredQuests.isNotEmpty)
-          //? Esse botão restaura as quests removidas usando o botão X no canto superior direito de cada quest
-          //? Gostaria de fazer que esse botão aparecesse apenas quando o usuário tiver removido alguma quest
-          //? Essa informação está disponível puxando o tamanho da lista "filteredQuests"
-          //? mas por qualquer motivo, a appBar não se reconstroi quando o usuário remove um dos items e altera a lista
-          Tooltip(
-            message: "Restore all removed quests",
-            child: IconButton(
-                icon: Icon(
-                  Icons.check,
-                  size: 30,
-                  color: settings['secondaryColor'],
-                ),
-                onPressed: () {
-                  setState(() {
-                    filteredQuests = [];
-                  });
-                }),
-          ),
-          //? Esse botão deseleciona todos os requisitos marcados.
-          //? Gostaria que esse botão aparecesse apenas quando o usuário marcasse um botão, mas encontro o mesmo problema de cima.
-          Tooltip(
-            message: "Reset all trackers",
-            child: IconButton(
-                icon: Icon(
-                  Icons.fiber_new,
-                  color: settings['secondaryColor'],
-                  size: 30,
-                ),
-                onPressed: () {
-                  setState(() {
-                    checkedTracker = {};
-                  });
-                }),
-          ),
-          //? Esse botão mostra o menu de filtragem de quests por tipo usando o endDrawer.
-          Builder(builder: (context) {
-            return Tooltip(
-              message: "Filter which quest type you wish to display",
-              child: IconButton(
-                  icon: Icon(
-                    Icons.settings,
-                    color: settings['secondaryColor'],
-                    size: 30,
-                  ),
-                  onPressed: () => Scaffold.of(context).openEndDrawer()),
-            );
-          })
-        ],
-      ),
-      backgroundColor: settings['primaryColor'],
-      body: DailyBody(
-          context), //? por questão de organização, o corpo dessa página é delegado pra outra classe se responsabilizar.
-    );
+            onPressed: () {
+              setState(() {
+                checkedTracker = {};
+              });
+            }),
+      );
+    }
+    return Container();
   }
-}
 
-class DailyBody extends StatefulWidget {
-  DailyBody(BuildContext context, {Key key}) : super(key: key);
-
-  @override
-  _DailyBodyState createState() => _DailyBodyState();
-}
-
-class _DailyBodyState extends State<DailyBody> {
-  //? Essa lista junta todos os itens que serão renderizados, baseado nas configurações selecionadas pelo usuário.
+//? Essa lista junta todos os itens que serão renderizados, baseado nas configurações selecionadas pelo usuário.
   List<Widget> tracking = [];
 
   //?/ Essa é a função responsável por popular o corpo da página.
@@ -418,8 +68,7 @@ class _DailyBodyState extends State<DailyBody> {
         }
         tracking.add(Container(
           width: MediaQuery.of(context).size.width,
-          // padding: EdgeInsets.all(5),
-          margin: EdgeInsets.all(5),
+          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
               border: Border.all(width: 3, color: settings['secondaryColor']),
               color: settings['primaryColor'],
@@ -432,44 +81,42 @@ class _DailyBodyState extends State<DailyBody> {
               ]),
           child: Column(children: [
             ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
               child: Container(
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(5),
                 color: settings['secondaryColor'],
-                child: Stack(children: [
-                  Center(
-                    child: Text(
-                      craft[d][0],
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PS2P",
-                          fontSize: 20),
-                    ),
-                  ),
-                  Positioned(
-                      top: -2.5,
-                      right: 5,
-                      child: Container(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 0,
+                      ),
+                      Text(
+                        craft[d][0],
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 18),
+                      ),
+                      IconButton(
+                        constraints:
+                            BoxConstraints(maxHeight: 30, maxWidth: 30),
                         padding: EdgeInsets.all(0),
-                        width: 20,
-                        height: 20,
-                        child: IconButton(
-                          splashColor: Colors.transparent,
-                          padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            setState(() {
-                              filteredQuests.add(craft[d][0]);
-                            });
-                          },
-                          icon: Icon(
-                            Icons.cancel_outlined,
-                            color: settings['primaryColor'],
-                          ),
+                        iconSize: 30,
+                        splashColor: Colors.transparent,
+                        onPressed: () {
+                          setState(() {
+                            filteredQuests.add(craft[d][0]);
+                          });
+                        },
+                        icon: Icon(
+                          Icons.cancel_outlined,
+                          color: settings['primaryColor'],
+                          semanticLabel: "Click to remove quest.",
                         ),
-                      ))
-                ]),
+                      )
+                    ]),
               ),
             ),
             if (!dailiesSettings['listMode'])
@@ -506,315 +153,320 @@ class _DailyBodyState extends State<DailyBody> {
               SizedBox(
                 height: 10,
               ),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Container(
-                width: 50, //? tamanho para padronizar todos os botões
-                margin: EdgeInsets.symmetric(
-                    horizontal: 5), //? tamanho para afastar os botões
-                padding: EdgeInsets.only(
-                    left: craft[d][2][0].contains("quest")
-                        ? 5
-                        : 0, //? as imagens de marca não são
-                    //? perfeitamente centralizadas, então essa função terciaria vai centralizar
-                    //? as marcas e ignorar o resto
-                    top: 3,
-                    bottom: 3),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 3,
-                      color: checkedTracker["${divider}craft${d}IMG1"] ?? false
-                          ? Colors.green[700]
-                          : Colors.red[700]),
-                  //? a cor interna e a cor da borda da imagem mudam com o clique para sinalizar que o item foi marcado
-                  color: checkedTracker["${divider}craft${d}IMG1"] ?? false
-                      ? Colors.green[300]
-                      : Colors.red[300],
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                ),
-                child: RawMaterialButton(
-                    onPressed: () {
-                      //? essa função colore a moldura da imagem e guarda o valor
-                      //? dentro da lista "checkedTracker", para que essa lista possa
-                      //? ser reiniciada pelo botão da appBar, caso o usuário queira
-                      if (checkedTracker["${divider}craft${d}IMG1"] ?? false) {
-                        setState(() {
-                          checkedTracker["${divider}craft${d}IMG1"] = false;
-                        });
-                      } else {
-                        setState(() {
-                          checkedTracker["${divider}craft${d}IMG1"] = true;
-                        });
-                      }
-                    },
-                    //? shrinkwrap encolhe o botão para que ele não fique desnecessariamente grande (o que é o padrão)
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    child: Center(child: Image.asset(craft[d][2][0]))),
-              ),
-              if (craft[d][2].length > 1)
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
                 Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  width: 50, //? tamanho para padronizar todos os botões
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 2), //? tamanho para afastar os botões
                   padding: EdgeInsets.only(
-                      left: craft[d][2][1].contains("quest") ? 5 : 0,
+                      left: craft[d][2][0].contains("quest")
+                          ? 5
+                          : 0, //? as imagens de marca não são
+                      //? perfeitamente centralizadas, então essa função terciaria vai centralizar
+                      //? as marcas e ignorar o resto
                       top: 3,
                       bottom: 3),
                   decoration: BoxDecoration(
                     border: Border.all(
                         width: 3,
                         color:
-                            checkedTracker["${divider}craft${d}IMG2"] ?? false
+                            checkedTracker["${divider}craft${d}IMG1"] ?? false
                                 ? Colors.green[700]
                                 : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG2"] ?? false
+                    //? a cor interna e a cor da borda da imagem mudam com o clique para sinalizar que o item foi marcado
+                    color: checkedTracker["${divider}craft${d}IMG1"] ?? false
                         ? Colors.green[300]
                         : Colors.red[300],
                     borderRadius: BorderRadius.all(Radius.circular(25)),
                   ),
                   child: RawMaterialButton(
                       onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG2"] ??
+                        //? essa função colore a moldura da imagem e guarda o valor
+                        //? dentro da lista "checkedTracker", para que essa lista possa
+                        //? ser reiniciada pelo botão da appBar, caso o usuário queira
+                        if (checkedTracker["${divider}craft${d}IMG1"] ??
                             false) {
                           setState(() {
-                            checkedTracker["${divider}craft${d}IMG2"] = false;
+                            checkedTracker["${divider}craft${d}IMG1"] = false;
                           });
                         } else {
                           setState(() {
-                            checkedTracker["${divider}craft${d}IMG2"] = true;
+                            checkedTracker["${divider}craft${d}IMG1"] = true;
                           });
                         }
                       },
+                      //? shrinkwrap encolhe o botão para que ele não fique desnecessariamente grande (o que é o padrão)
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(child: Image.asset(craft[d][2][1]))),
+                      child: Center(child: Image.asset(craft[d][2][0]))),
                 ),
-              if (craft[d][2].length > 2)
-                Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.only(
-                      left: craft[d][2][2].contains("quest") ? 5 : 0,
-                      top: 3,
-                      bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 3,
-                        color:
-                            checkedTracker["${divider}craft${d}IMG3"] ?? false
-                                ? Colors.green[700]
-                                : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG3"] ?? false
-                        ? Colors.green[300]
-                        : Colors.red[300],
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                if (craft[d][2].length > 1)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][1].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG2"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG2"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG2"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG2"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG2"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(child: Image.asset(craft[d][2][1]))),
                   ),
-                  child: RawMaterialButton(
-                      onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG3"] ??
-                            false) {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG3"] = false;
-                          });
-                        } else {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG3"] = true;
-                          });
-                        }
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(
-                        child: Image.asset(craft[d][2][2]),
-                      )),
-                ),
-              if (craft[d][2].length > 3)
-                Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.only(
-                      left: craft[d][2][3].contains("quest") ? 5 : 0,
-                      top: 3,
-                      bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 3,
-                        color:
-                            checkedTracker["${divider}craft${d}IMG4"] ?? false
-                                ? Colors.green[700]
-                                : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG4"] ?? false
-                        ? Colors.green[300]
-                        : Colors.red[300],
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                if (craft[d][2].length > 2)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][2].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG3"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG3"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG3"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG3"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG3"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(
+                          child: Image.asset(craft[d][2][2]),
+                        )),
                   ),
-                  child: RawMaterialButton(
-                      onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG4"] ??
-                            false) {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG4"] = false;
-                          });
-                        } else {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG4"] = true;
-                          });
-                        }
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(
-                        child: Image.asset(craft[d][2][3]),
-                      )),
-                ),
-              if (craft[d][2].length > 4)
-                Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.only(
-                      left: craft[d][2][4].contains("quest") ? 5 : 0,
-                      top: 3,
-                      bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 3,
-                        color:
-                            checkedTracker["${divider}craft${d}IMG5"] ?? false
-                                ? Colors.green[700]
-                                : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG5"] ?? false
-                        ? Colors.green[300]
-                        : Colors.red[300],
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                if (craft[d][2].length > 3)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][3].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG4"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG4"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG4"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG4"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG4"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(
+                          child: Image.asset(craft[d][2][3]),
+                        )),
                   ),
-                  child: RawMaterialButton(
-                      onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG5"] ??
-                            false) {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG5"] = false;
-                          });
-                        } else {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG5"] = true;
-                          });
-                        }
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(
-                        child: Image.asset(craft[d][2][4]),
-                      )),
-                ),
-              if (craft[d][2].length > 5)
-                Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.only(
-                      left: craft[d][2][5].contains("quest") ? 5 : 0,
-                      top: 3,
-                      bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 3,
-                        color:
-                            checkedTracker["${divider}craft${d}IMG6"] ?? false
-                                ? Colors.green[700]
-                                : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG6"] ?? false
-                        ? Colors.green[300]
-                        : Colors.red[300],
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                if (craft[d][2].length > 4)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][4].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG5"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG5"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG5"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG5"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG5"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(
+                          child: Image.asset(craft[d][2][4]),
+                        )),
                   ),
-                  child: RawMaterialButton(
-                      onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG6"] ??
-                            false) {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG6"] = false;
-                          });
-                        } else {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG6"] = true;
-                          });
-                        }
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(
-                        child: Image.asset(craft[d][2][5]),
-                      )),
-                ),
-              if (craft[d][2].length > 6)
-                Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.only(
-                      left: craft[d][2][6].contains("quest") ? 5 : 0,
-                      top: 3,
-                      bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 3,
-                        color:
-                            checkedTracker["${divider}craft${d}IMG7"] ?? false
-                                ? Colors.green[700]
-                                : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG7"] ?? false
-                        ? Colors.green[300]
-                        : Colors.red[300],
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                if (craft[d][2].length > 5)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][5].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG6"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG6"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG6"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG6"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG6"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(
+                          child: Image.asset(craft[d][2][5]),
+                        )),
                   ),
-                  child: RawMaterialButton(
-                      onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG7"] ??
-                            false) {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG7"] = false;
-                          });
-                        } else {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG7"] = true;
-                          });
-                        }
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(
-                        child: Image.asset(craft[d][2][6]),
-                      )),
-                ),
-              if (craft[d][2].length > 7)
-                Container(
-                  width: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  padding: EdgeInsets.only(
-                      left: craft[d][2][7].contains("quest") ? 5 : 0,
-                      top: 3,
-                      bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 3,
-                        color:
-                            checkedTracker["${divider}craft${d}IMG8"] ?? false
-                                ? Colors.green[700]
-                                : Colors.red[700]),
-                    color: checkedTracker["${divider}craft${d}IMG8"] ?? false
-                        ? Colors.green[300]
-                        : Colors.red[300],
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                if (craft[d][2].length > 6)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][6].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG7"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG7"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG7"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG7"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG7"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(
+                          child: Image.asset(craft[d][2][6]),
+                        )),
                   ),
-                  child: RawMaterialButton(
-                      onPressed: () {
-                        if (checkedTracker["${divider}craft${d}IMG8"] ??
-                            false) {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG8"] = false;
-                          });
-                        } else {
-                          setState(() {
-                            checkedTracker["${divider}craft${d}IMG8"] = true;
-                          });
-                        }
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Center(
-                        child: Image.asset(craft[d][2][7]),
-                      )),
-                ),
-            ]),
+                if (craft[d][2].length > 7)
+                  Container(
+                    width: 50,
+                    margin: EdgeInsets.symmetric(horizontal: 2),
+                    padding: EdgeInsets.only(
+                        left: craft[d][2][7].contains("quest") ? 5 : 0,
+                        top: 3,
+                        bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 3,
+                          color:
+                              checkedTracker["${divider}craft${d}IMG8"] ?? false
+                                  ? Colors.green[700]
+                                  : Colors.red[700]),
+                      color: checkedTracker["${divider}craft${d}IMG8"] ?? false
+                          ? Colors.green[300]
+                          : Colors.red[300],
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: RawMaterialButton(
+                        onPressed: () {
+                          if (checkedTracker["${divider}craft${d}IMG8"] ??
+                              false) {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG8"] = false;
+                            });
+                          } else {
+                            setState(() {
+                              checkedTracker["${divider}craft${d}IMG8"] = true;
+                            });
+                          }
+                        },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Center(
+                          child: Image.asset(craft[d][2][7]),
+                        )),
+                  ),
+              ]),
+            ),
             if (!dailiesSettings['listMode'])
               SizedBox(
                 height: 10,
@@ -1163,7 +815,7 @@ class _DailyBodyState extends State<DailyBody> {
         ],
         6: [
           "The Puppet Master",
-          "The Puppet Master",
+          "Defeat The Puppet Master in the Theatre.",
           [
             "images/quests/standart/puppettheater.png",
             "images/quests/standart/puppettheater.png",
@@ -1175,6 +827,19 @@ class _DailyBodyState extends State<DailyBody> {
           ["images/quests/rewards/standartchest.png"]
         ],
         7: [
+          "The Titan",
+          "Defeat the Sandstone Titan in the Ancient Ruins.",
+          [
+            "images/quests/standart/ancientruins.png",
+            "images/quests/standart/ancientruins.png",
+            "images/quests/standart/ancientruins.png",
+            "images/quests/standart/ancientruins.png",
+            "images/quests/standart/ancientruins.png",
+            "images/quests/standart/ancientruins.png"
+          ],
+          ["images/quests/rewards/standartchest.png"]
+        ],
+        8: [
           "The Fountain Spirit",
           "Defeat the Fountain Spirit in the Magic Woods.",
           [
@@ -1186,7 +851,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        8: [
+        9: [
           "The Archivist",
           "Defeat Avalon in the Cursed Library!",
           [
@@ -1198,7 +863,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        9: [
+        10: [
           "The Apparition",
           "Defeat the Ghost of Skuld in the Haunted Cemetery.",
           [
@@ -1208,7 +873,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        10: [
+        11: [
           "The Vampire Lord",
           "Defeat Lord Ruthven in the Manor of the Immortals.",
           [
@@ -1219,7 +884,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        11: [
+        12: [
           "The Mad Scientist",
           "Defeat Dr. Terrible in the Mad Lab.",
           [
@@ -1230,7 +895,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        12: [
+        13: [
           "To the Mountains!",
           "Head to the mountains to take down Oryx’s generals!",
           [
@@ -1244,7 +909,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        13: [
+        14: [
           "Smite the Undead!",
           "Put these ones back in their graves, would ya?",
           [
@@ -1257,7 +922,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        14: [
+        15: [
           "As Above, So Below",
           "Take to the skies and sink to the depths for this quest!",
           [
@@ -1270,7 +935,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        15: [
+        16: [
           "Blessings and Curses",
           "Life is all about balance, wouldn’t you agree?",
           [
@@ -1283,7 +948,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        16: [
+        17: [
           "Demonhunter",
           "I don’t think Holy Water will cut it for these ones!",
           [
@@ -1295,7 +960,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        17: [
+        18: [
           "That’s the Spirit",
           "All sorts of ghouls lurk in the realm, some more frightening than others!",
           [
@@ -1306,7 +971,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        18: [
+        19: [
           "Rainbow Road",
           "Bring me some marks while you search for stat potions!",
           [
@@ -1317,7 +982,7 @@ class _DailyBodyState extends State<DailyBody> {
           ],
           ["images/quests/rewards/standartchest.png"]
         ],
-        19: [
+        20: [
           "The Cost of Wisdom",
           "I was never the most book smart, but there’s still time for you!",
           [
@@ -1711,12 +1376,413 @@ class _DailyBodyState extends State<DailyBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-          itemCount: dailyTracker().length,
-          itemBuilder: (context, index) {
-            return tracking[index];
-          }),
+    return Scaffold(
+      //? o endDrawer é responsável por organizar os filtros dessa página.
+      //? Ele pode ser acessado puxando a lateral direita da página ou apertando o botão de settings na appBar
+      endDrawer: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          // width: MediaQuery.of(context).size.width * 0.4,
+          color: settings['primaryColor'],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppBar(
+                  centerTitle: true,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  title: Text(
+                    "Quest Filters",
+                    style: TextStyle(
+                        color: settings['secondaryColor'],
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "PS2P",
+                        fontSize: 15),
+                  ),
+                  leading: IconButton(
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                      color: settings['secondaryColor'],
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  actions: [
+                    //? Esse botão deseleciona todos os requisitos marcados.
+                    //? Gostaria que esse botão aparecesse apenas quando o usuário marcasse um botão, mas encontro o mesmo problema de cima.
+                    if (!dailiesSettings["craft"] ||
+                        !dailiesSettings["beginner"] ||
+                        !dailiesSettings["scout"] ||
+                        !dailiesSettings["standart"] ||
+                        !dailiesSettings["mighty"] ||
+                        !dailiesSettings["epic"])
+                      Tooltip(
+                        message: "Restore all original settings",
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.settings_backup_restore,
+                              size: 30,
+                              color: settings['secondaryColor'],
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                dailiesSettings["craft"] = true;
+                                dailiesSettings["beginner"] = true;
+                                dailiesSettings["scout"] = true;
+                                dailiesSettings["standart"] = true;
+                                dailiesSettings["mighty"] = true;
+                                dailiesSettings["epic"] = true;
+                              });
+                            }),
+                      ),
+                    if (dailiesSettings["craft"] ||
+                        dailiesSettings["beginner"] ||
+                        dailiesSettings["scout"] ||
+                        dailiesSettings["standart"] ||
+                        dailiesSettings["mighty"] ||
+                        dailiesSettings["epic"])
+                      SizedBox()
+                  ],
+                ),
+                Divider(
+                  indent: 25,
+                  endIndent: 25,
+                  thickness: 3,
+                  color: settings['secondaryColor'],
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                      secondary: Image.asset('images/pots/glifepot.png'),
+                      title: Text(
+                        "Enable/Disable Crafting Quests",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 10),
+                      ),
+                      value: dailiesSettings['craft'],
+                      onChanged: (bool value) {
+                        setState(() {
+                          dailiesSettings['craft'] = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                      secondary: Image.asset(
+                          'images/quests/rewards/beginnerchest.png'),
+                      title: Text(
+                        "Enable/Disable Beginner Quests",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 10),
+                      ),
+                      value: dailiesSettings['beginner'],
+                      onChanged: (bool value) {
+                        setState(() {
+                          dailiesSettings['beginner'] = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                      secondary: Image.asset('images/pots/mysterypot.png'),
+                      title: Text(
+                        "Enable/Disable Scout Quests",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 10),
+                      ),
+                      value: dailiesSettings['scout'],
+                      onChanged: (bool value) {
+                        setState(() {
+                          dailiesSettings['scout'] = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                      secondary: Image.asset(
+                          'images/quests/rewards/standartchest.png'),
+                      title: Text(
+                        "Enable/Disable Standart Quests",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 10),
+                      ),
+                      value: dailiesSettings['standart'],
+                      onChanged: (bool value) {
+                        setState(() {
+                          dailiesSettings['standart'] = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                      secondary:
+                          Image.asset('images/quests/rewards/mightychest.png'),
+                      title: Text(
+                        "Enable/Disable Mighty Quests",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 10),
+                      ),
+                      value: dailiesSettings['mighty'],
+                      onChanged: (bool value) {
+                        setState(() {
+                          dailiesSettings['mighty'] = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: settings['secondaryColor']),
+                      color: settings['primaryColor'],
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: settings['secondaryColor'],
+                            offset: Offset(2, 2),
+                            blurRadius: 3)
+                      ]),
+                  child: Tooltip(
+                    message:
+                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                    child: CheckboxListTile(
+                      secondary: Image.asset(
+                          'images/quests/rewards/voidepicchest.png'),
+                      title: Text(
+                        "Enable/Disable Epic Quests",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 10),
+                      ),
+                      value: dailiesSettings['epic'],
+                      onChanged: (bool value) {
+                        setState(() {
+                          dailiesSettings['epic'] = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      appBar: AppBar(
+        //? Centraliza o título considerando o espaço total da appBar, ao invés de usar apenas o tamanho restante padrão
+        centerTitle: true,
+        backgroundColor: settings['primaryColor'],
+        //? remove a sombra do fundo que dá impressão da appBar estar acima do resto do conteudo.
+        elevation: 0,
+        title: Tooltip(
+          message: "Dailies Tracker",
+          child: Text(
+            "Dailies Tracker",
+            style: TextStyle(
+                color: settings['secondaryColor'],
+                fontWeight: FontWeight.bold,
+                fontFamily: "PS2P",
+                fontSize: 10),
+          ),
+        ),
+        leading: Tooltip(
+          message: "Return to the main menu",
+          child: Center(
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: settings['secondaryColor'],
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          //? Esse botão alterna entre o modo lista e o modo completo.
+          Tooltip(
+            message: dailiesSettings['listMode']
+                ? 'Enable quest details'
+                : 'Disable quest details',
+            child: IconButton(
+                icon: Icon(
+                  dailiesSettings['listMode'] ? Icons.add : Icons.remove,
+                  size: 30,
+                  color: settings['secondaryColor'],
+                ),
+                onPressed: () {
+                  if (dailiesSettings['listMode']) {
+                    setState(() {
+                      dailiesSettings['listMode'] = false;
+                    });
+                  } else {
+                    setState(() {
+                      dailiesSettings['listMode'] = true;
+                    });
+                  }
+                }),
+          ),
+          if (filteredQuests.length > 0)
+            //? Esse botão restaura as quests removidas usando o botão X no canto superior direito de cada quest
+            //? Essa informação está disponível puxando o tamanho da lista "filteredQuests"
+            Tooltip(
+              message: "Restore all removed quests",
+              child: IconButton(
+                  icon: Icon(
+                    Icons.restore,
+                    size: 30,
+                    color: settings['secondaryColor'],
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      filteredQuests = [];
+                    });
+                  }),
+            ),
+          //? Esse botão restaura as quests removidas usando o botão X no canto superior direito de cada quest
+          //? Essa informação está disponível puxando o tamanho da lista "filteredQuests"
+          resetTrackedProgress(),
+          //? Esse botão mostra o menu de filtragem de quests por tipo usando o endDrawer.
+          Builder(builder: (context) {
+            return Tooltip(
+              message: "Filter which quest type you wish to display",
+              child: IconButton(
+                  icon: Icon(
+                    Icons.filter_alt,
+                    color: settings['secondaryColor'],
+                    size: 30,
+                  ),
+                  onPressed: () => Scaffold.of(context).openEndDrawer()),
+            );
+          })
+        ],
+      ),
+      backgroundColor: settings['primaryColor'],
+      //? por questão de organização, o corpo dessa página é delegado pra outra classe se responsabilizar.
+      body: Container(
+        child: ListView.builder(
+            itemCount: dailyTracker().length,
+            itemBuilder: (context, index) {
+              return tracking[index];
+            }),
+      ),
     );
   }
 }
