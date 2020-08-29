@@ -321,9 +321,9 @@ class _AccountState extends State<Account> {
           ],
         ),
         body: Container(
-          // height: MediaQuery.of(context).size.height,
-          // width: MediaQuery.of(context).size.width,
-          color: settings['primaryColor'],
+          color: settings['whiteTheme'] == true
+              ? Colors.blue[200]
+              : Colors.grey[900],
           child: FutureBuilder(
               future: charsList(),
               builder: (context, snapshot) {
@@ -857,7 +857,9 @@ class _AccountState extends State<Account> {
             ),
           ),
         ),
-        backgroundColor: settings['primaryColor'],
+        backgroundColor: settings['whiteTheme'] == true
+            ? Colors.blue[200]
+            : Colors.grey[900],
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,

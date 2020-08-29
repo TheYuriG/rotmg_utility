@@ -88,7 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: settings['primaryColor'],
+          color: settings['whiteTheme'] == true
+              ? Colors.blue[200]
+              : Colors.grey[900],
           child: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Text(

@@ -17,7 +17,9 @@ class _TradingState extends State<Trading> {
         child: Container(
           padding: EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.4,
-          color: settings['primaryColor'],
+          color: settings['whiteTheme'] == true
+              ? Colors.blue[200]
+              : Colors.grey[900],
           child: Column(
             children: [
               Container(

@@ -85,38 +85,45 @@ class _DailiesState extends State<Dailies> {
               child: Container(
                 padding: EdgeInsets.all(5),
                 color: settings['secondaryColor'],
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 0,
-                      ),
-                      Text(
-                        craft[d][0],
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 18),
-                      ),
-                      IconButton(
-                        constraints:
-                            BoxConstraints(maxHeight: 30, maxWidth: 30),
-                        padding: EdgeInsets.all(0),
-                        iconSize: 30,
-                        splashColor: Colors.transparent,
-                        onPressed: () {
-                          setState(() {
-                            filteredQuests.add(craft[d][0]);
-                          });
-                        },
-                        icon: Icon(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
                           Icons.cancel_outlined,
-                          color: settings['primaryColor'],
-                          semanticLabel: "Click to remove quest.",
+                          color: Colors.transparent,
+                          size: 30,
                         ),
-                      )
-                    ]),
+                        Center(
+                          child: Text(
+                            craft[d][0],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 18),
+                          ),
+                        ),
+                        IconButton(
+                          constraints:
+                              BoxConstraints(maxHeight: 30, maxWidth: 30),
+                          padding: EdgeInsets.all(0),
+                          iconSize: 30,
+                          splashColor: Colors.transparent,
+                          onPressed: () {
+                            setState(() {
+                              filteredQuests.add(craft[d][0]);
+                            });
+                          },
+                          icon: Icon(
+                            Icons.cancel_outlined,
+                            color: settings['primaryColor'],
+                            semanticLabel: "Click to remove quest.",
+                          ),
+                        )
+                      ]),
+                ),
               ),
             ),
             if (!dailiesSettings['listMode'])
@@ -1377,6 +1384,8 @@ class _DailiesState extends State<Dailies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+          settings['whiteTheme'] == true ? Colors.blue[200] : Colors.grey[900],
       //? o endDrawer é responsável por organizar os filtros dessa página.
       //? Ele pode ser acessado puxando a lateral direita da página ou apertando o botão de settings na appBar
       endDrawer: ConstrainedBox(
@@ -1774,7 +1783,7 @@ class _DailiesState extends State<Dailies> {
           })
         ],
       ),
-      backgroundColor: settings['primaryColor'],
+
       //? por questão de organização, o corpo dessa página é delegado pra outra classe se responsabilizar.
       body: Container(
         child: ListView.builder(

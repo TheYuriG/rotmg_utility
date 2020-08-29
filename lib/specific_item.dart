@@ -272,7 +272,9 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
               border: Border.all(width: 3, color: settings['secondaryColor']),
-              color: settings['primaryColor'],
+              color: settings['whiteTheme'] == true
+                  ? Colors.blue[200]
+                  : Colors.grey[900],
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
               boxShadow: [
                 BoxShadow(
