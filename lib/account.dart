@@ -16,6 +16,170 @@ Map<String, String> summaryData = {};
 Image starColor;
 // Essa variável limpa as estatisticas de charObject e organiza elas
 Map<int, Map<String, dynamic>> charData = {};
+// Essa variavel guarda os min/max de cada classe
+//! Esse map precisará ser atualizado no futuro quando a atualização de IC/OOC chegar e modificar os atributos bases de vários personagens.
+Map<String, Map<String, int>> charStatsParams = {
+  "Rogue": {
+    "life": 720,
+    "mana": 252,
+    "attack": 50,
+    "defense": 25,
+    "speed": 75,
+    "dexterity": 75,
+    "vitality": 40,
+    "wisdom": 50
+  },
+  "Archer": {
+    "life": 700,
+    "mana": 252,
+    "attack": 75,
+    "defense": 25,
+    "speed": 50,
+    "dexterity": 50,
+    "vitality": 40,
+    "wisdom": 50
+  },
+  "Wizard": {
+    "life": 670,
+    "mana": 385,
+    "attack": 75,
+    "defense": 25,
+    "speed": 50,
+    "dexterity": 75,
+    "vitality": 40,
+    "wisdom": 60
+  },
+  "Priest": {
+    "life": 670,
+    "mana": 385,
+    "attack": 50,
+    "defense": 25,
+    "speed": 55,
+    "dexterity": 55,
+    "vitality": 40,
+    "wisdom": 75
+  },
+  "Warrior": {
+    "life": 770,
+    "mana": 252,
+    "attack": 75,
+    "defense": 25,
+    "speed": 50,
+    "dexterity": 50,
+    "vitality": 75,
+    "wisdom": 50
+  },
+  "Knight": {
+    "life": 770,
+    "mana": 252,
+    "attack": 50,
+    "defense": 40,
+    "speed": 50,
+    "dexterity": 50,
+    "vitality": 75,
+    "wisdom": 50
+  },
+  "Paladin": {
+    "life": 770,
+    "mana": 252,
+    "attack": 50, //! Subirá para 55
+    "defense": 40,
+    "speed": 55,
+    "dexterity": 45, //! Subirá para 55
+    "vitality": 40, //! Subirá para 60
+    "wisdom": 75
+  },
+  "Assassin": {
+    "life": 720,
+    "mana": 252,
+    "attack": 60,
+    "defense": 25,
+    "speed": 75,
+    "dexterity": 75,
+    "vitality": 40,
+    "wisdom": 60
+  },
+  "Necromancer": {
+    "life": 670,
+    "mana": 385,
+    "attack": 75,
+    "defense": 25,
+    "speed": 50,
+    "dexterity": 60,
+    "vitality": 30, //! Subirá para 40
+    "wisdom": 75
+  },
+  "Huntress": {
+    "life": 700,
+    "mana": 252,
+    "attack": 75,
+    "defense": 25,
+    "speed": 50,
+    "dexterity": 50,
+    "vitality": 40,
+    "wisdom": 50
+  },
+  "Mystic": {
+    "life": 670,
+    "mana": 385,
+    "attack": 60, //! Subirá para 65
+    "defense": 25,
+    "speed": 60,
+    "dexterity": 55, //! Subirá para 65
+    "vitality": 40,
+    "wisdom": 75
+  },
+  "Trickster": {
+    "life": 720,
+    "mana": 252,
+    "attack": 65,
+    "defense": 25,
+    "speed": 75,
+    "dexterity": 75,
+    "vitality": 40,
+    "wisdom": 60
+  },
+  "Sorcerer": {
+    "life": 670,
+    "mana": 385,
+    "attack": 70,
+    "defense": 25,
+    "speed": 60,
+    "dexterity": 60,
+    "vitality": 75,
+    "wisdom": 60
+  },
+  "Ninja": {
+    "life": 720,
+    "mana": 252,
+    "attack": 70,
+    "defense": 25,
+    "speed": 60,
+    "dexterity": 70,
+    "vitality": 60,
+    "wisdom": 70
+  },
+  "Samurai": {
+    "life": 720,
+    "mana": 252,
+    "attack": 75,
+    "defense": 60,
+    "speed": 55,
+    "dexterity": 50,
+    "vitality": 45,
+    "wisdom": 60
+  },
+  "Bard": {
+    "life": 670,
+    "mana": 385,
+    "attack": 55,
+    "defense": 25,
+    "speed": 55,
+    "dexterity": 70,
+    "vitality": 30,
+    "wisdom": 75
+  },
+};
 
 class _AccountState extends State<Account> {
   Future<List<Widget>> charsList() async {
@@ -44,6 +208,7 @@ class _AccountState extends State<Account> {
       chars.add(
         Container(
           margin: EdgeInsets.all(5),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
               color: settings['primaryColor'],
               border: Border.all(width: 3, color: settings['secondaryColor']),
@@ -57,71 +222,423 @@ class _AccountState extends State<Account> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'images/chars/${await charData[k]['class'].toLowerCase()}.png',
-                      height: 40,
-                      width: 40,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          await charData[k]['stats']['maxed'],
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'images/chars/${await charData[k]['class'].toLowerCase()}.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        await charData[k]['stats']['maxed'],
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontFamily: "PS2P",
+                            fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        await charData[k]['class'],
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontFamily: "PS2P",
+                            fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  lastServer(k),
+                  Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: retrieveStars(await charData[k]['stars'])),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'images/fame.png',
+                        height: 20,
+                        width: 20,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "${await charData[k]['fame']}",
+                        style: TextStyle(
+                            color: settings['secondaryColor'],
+                            fontFamily: "PS2P",
+                            fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(width: 5),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][0]}\nBonuses: ${charData[k]['stats']['bonuses'][0]}\nLeft to max: ${charData[k]['stats']['max'][0]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][0] +
+                                  charData[k]['stats']['bonuses'][0])
+                              .toString(),
                           style: TextStyle(
-                              color: settings['secondaryColor'],
+                              color: Colors.lightBlueAccent[100],
                               fontFamily: "PS2P",
-                              fontSize: 12),
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][0] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['life']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          await charData[k]['class'],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][1]}\nBonuses: ${charData[k]['stats']['bonuses'][1]}\nLeft to max: ${charData[k]['stats']['max'][1]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][1] +
+                                  charData[k]['stats']['bonuses'][1])
+                              .toString(),
                           style: TextStyle(
-                              color: settings['secondaryColor'],
+                              color: Colors.yellow[300],
                               fontFamily: "PS2P",
-                              fontSize: 12),
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][1] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['mana']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
                           textAlign: TextAlign.center,
                         ),
-                      ],
-                    ),
-                    lastServer(k),
-                    Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: retrieveStars(await charData[k]['stars'])),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'images/fame.png',
-                          height: 20,
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "${await charData[k]['fame']}",
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][2]}\nBonuses: ${charData[k]['stats']['bonuses'][2]}\nLeft to max: ${charData[k]['stats']['max'][2]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][2] +
+                                  charData[k]['stats']['bonuses'][2])
+                              .toString(),
                           style: TextStyle(
-                              color: settings['secondaryColor'],
+                              color: Colors.pink[300],
                               fontFamily: "PS2P",
-                              fontSize: 12),
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][2] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['attack']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
                           textAlign: TextAlign.center,
                         ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][3]}\nBonuses: ${charData[k]['stats']['bonuses'][3]}\nLeft to max: ${charData[k]['stats']['max'][3]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][3] +
+                                  charData[k]['stats']['bonuses'][3])
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.grey[800],
+                              fontFamily: "PS2P",
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][3] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['defense']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] != Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.white),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.white),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.white),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.white),
+                                    ]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][4]}\nBonuses: ${charData[k]['stats']['bonuses'][4]}\nLeft to max: ${charData[k]['stats']['max'][4]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][4] +
+                                  charData[k]['stats']['bonuses'][4])
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.green[400],
+                              fontFamily: "PS2P",
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][4] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['speed']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][5]}\nBonuses: ${charData[k]['stats']['bonuses'][5]}\nLeft to max: ${charData[k]['stats']['max'][5]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][5] +
+                                  charData[k]['stats']['bonuses'][5])
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.red[700],
+                              fontFamily: "PS2P",
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][5] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['vitality']
+                                  ? FontWeight.w900
+                                  : FontWeight.w100,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][6]}\nBonuses: ${charData[k]['stats']['bonuses'][6]}\nLeft to max: ${charData[k]['stats']['max'][6]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][6] +
+                                  charData[k]['stats']['bonuses'][6])
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.blue[600],
+                              fontFamily: "PS2P",
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][6] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['wisdom']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Tooltip(
+                        message:
+                            "Base: ${charData[k]['stats']['current'][7]}\nBonuses: ${charData[k]['stats']['bonuses'][7]}\nLeft to max: ${charData[k]['stats']['max'][7]}",
+                        child: Text(
+                          (charData[k]['stats']['current'][7] +
+                                  charData[k]['stats']['bonuses'][7])
+                              .toString(),
+                          style: TextStyle(
+                              color: Colors.orange[800],
+                              fontFamily: "PS2P",
+                              fontSize: 16,
+                              fontWeight: charData[k]['stats']['current'][7] ==
+                                      charStatsParams[charData[k]['class']]
+                                          ['dexterity']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              shadows: settings['primaryColor'] == Colors.black
+                                  ? []
+                                  : [
+                                      Shadow(
+                                          // bottomLeft
+                                          offset: Offset(-1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // bottomRight
+                                          offset: Offset(1, -1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topRight
+                                          offset: Offset(1, 1),
+                                          color: Colors.black),
+                                      Shadow(
+                                          // topLeft
+                                          offset: Offset(-1, 1),
+                                          color: Colors.black),
+                                    ]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
@@ -147,7 +664,7 @@ class _AccountState extends State<Account> {
     int accountStar = int.parse(summaryData['Rank']);
     String starColor;
     if (accountStar < 16) {
-      starColor = 'light_blue.png';
+      starColor = 'light_blue';
     } else if (accountStar >= 16 && accountStar < 32) {
       starColor = 'dark_blue';
     } else if (accountStar >= 32 && accountStar < 48) {
@@ -221,7 +738,8 @@ class _AccountState extends State<Account> {
                 'stats': {
                   'maxed': charObject[i + 9]['title'],
                   'current': null,
-                  'bonuses': null
+                  'bonuses': null,
+                  'max': null
                 },
                 'lastSeen': null,
                 'server': null
@@ -241,7 +759,8 @@ class _AccountState extends State<Account> {
                 'stats': {
                   'maxed': charObject[i + 9]['title'],
                   'current': null,
-                  'bonuses': null
+                  'bonuses': null,
+                  'max': null
                 },
                 'lastSeen': charObject[i + 10]['title'],
                 'server': charObject[i + 11]['title']
@@ -251,10 +770,64 @@ class _AccountState extends State<Account> {
           }
         }
         for (var m = 0; m < statsObject.length; m++) {
-          charData[m]['stats']['current'] =
-              statsObject[m]['attributes']['data-stats'];
-          charData[m]['stats']['bonuses'] =
-              statsObject[m]['attributes']['data-bonuses'];
+          charData[m]['stats']['bonuses'] = statsObject[m]['attributes']
+                  ['data-bonuses']
+              .replaceAll(']', "")
+              .replaceAll('[', "")
+              .split(',')
+              .map((stat) => int.parse(stat))
+              .toList();
+          List leftToMax = [];
+          List updatedStats = statsObject[m]['attributes']['data-stats']
+              .replaceAll(']', "")
+              .replaceAll('[', "")
+              .split(',')
+              .map((stat) => int.parse(stat))
+              .toList();
+          for (var i = 0; i < updatedStats.length; i++) {
+            updatedStats[i] =
+                updatedStats[i] - charData[m]['stats']['bonuses'][i];
+            switch (i) {
+              case 0:
+                leftToMax.add((charStatsParams[charData[m]['class']]['life'] -
+                        updatedStats[i]) ~/
+                    5);
+                break;
+              case 1:
+                leftToMax.add((charStatsParams[charData[m]['class']]['mana'] -
+                        updatedStats[i]) ~/
+                    5);
+                break;
+              case 2:
+                leftToMax.add(charStatsParams[charData[m]['class']]['attack'] -
+                    updatedStats[i]);
+                break;
+              case 3:
+                leftToMax.add(charStatsParams[charData[m]['class']]['defense'] -
+                    updatedStats[i]);
+                break;
+              case 4:
+                leftToMax.add(charStatsParams[charData[m]['class']]['speed'] -
+                    updatedStats[i]);
+                break;
+              case 5:
+                leftToMax.add(charStatsParams[charData[m]['class']]
+                        ['vitality'] -
+                    updatedStats[i]);
+                break;
+              case 6:
+                leftToMax.add(charStatsParams[charData[m]['class']]['wisdom'] -
+                    updatedStats[i]);
+                break;
+              case 7:
+                leftToMax.add(charStatsParams[charData[m]['class']]
+                        ['dexterity'] -
+                    updatedStats[i]);
+                break;
+            }
+          }
+          charData[m]['stats']['max'] = leftToMax;
+          charData[m]['stats']['current'] = updatedStats;
         }
       } catch (e) {
         setState(() {
