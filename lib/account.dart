@@ -348,356 +348,375 @@ class _AccountState extends State<Account> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: settings['primaryColor'],
-                              border: Border.all(
-                                  width: 3, color: settings['secondaryColor']),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: settings['secondaryColor'],
-                                    offset: Offset(2, 2),
-                                    blurRadius: 3)
-                              ]),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Account name:",
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    if (summaryData.containsKey("Characters"))
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: settings['primaryColor'],
+                                border: Border.all(
+                                    width: 3,
+                                    color: settings['secondaryColor']),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: settings['secondaryColor'],
+                                      offset: Offset(2, 2),
+                                      blurRadius: 3)
+                                ]),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
                                       Text(
-                                        "Characters:",
+                                        "Account name:",
                                         style: TextStyle(
                                             color: settings['secondaryColor'],
                                             fontWeight: FontWeight.bold,
                                             fontFamily: "PS2P",
                                             fontSize: 10),
                                       ),
-                                    if (summaryData.containsKey("Fame"))
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0),
-                                        child: Text(
-                                          "Pending Fame:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      ),
-                                    if (summaryData.containsKey("Account fame"))
-                                      Text(
-                                        "Fame balance:",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Rank"))
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0),
-                                        child: Text(
-                                          "Stars:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      ),
-                                    if (summaryData.containsKey("Guild"))
-                                      Text(
-                                        "Guild:",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Guild Rank"))
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0),
-                                        child: Text(
-                                          "Guild Rank:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      ),
-                                    if (summaryData.containsKey("First seen"))
-                                      Text(
-                                        "First seen:",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Created"))
-                                      Text(
-                                        "Created:",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Last seen") &&
-                                            summaryData
-                                                .containsKey("First seen") ||
-                                        summaryData.containsKey("Last seen") &&
-                                            summaryData.containsKey("Created"))
                                       SizedBox(
                                         height: 10,
                                       ),
-                                    if (summaryData.containsKey("Last seen"))
-                                      Text(
-                                        "Last seen:",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                  ],
+                                      if (summaryData.containsKey("Characters"))
+                                        Text(
+                                          "Characters:",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Fame"))
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0),
+                                          child: Text(
+                                            "Pending Fame:",
+                                            style: TextStyle(
+                                                color:
+                                                    settings['secondaryColor'],
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "PS2P",
+                                                fontSize: 10),
+                                          ),
+                                        ),
+                                      if (summaryData
+                                          .containsKey("Account fame"))
+                                        Text(
+                                          "Fame balance:",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Rank"))
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0),
+                                          child: Text(
+                                            "Stars:",
+                                            style: TextStyle(
+                                                color:
+                                                    settings['secondaryColor'],
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "PS2P",
+                                                fontSize: 10),
+                                          ),
+                                        ),
+                                      if (summaryData.containsKey("Guild"))
+                                        Text(
+                                          "Guild:",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Guild Rank"))
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0),
+                                          child: Text(
+                                            "Guild Rank:",
+                                            style: TextStyle(
+                                                color:
+                                                    settings['secondaryColor'],
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "PS2P",
+                                                fontSize: 10),
+                                          ),
+                                        ),
+                                      if (summaryData.containsKey("First seen"))
+                                        Text(
+                                          "First seen:",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Created"))
+                                        Text(
+                                          "Created:",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData
+                                                  .containsKey("Last seen") &&
+                                              summaryData
+                                                  .containsKey("First seen") ||
+                                          summaryData
+                                                  .containsKey("Last seen") &&
+                                              summaryData
+                                                  .containsKey("Created"))
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      if (summaryData.containsKey("Last seen"))
+                                        Text(
+                                          "Last seen:",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      settings['playerId'],
-                                      style: TextStyle(
-                                          color: settings['secondaryColor'],
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: "PS2P",
-                                          fontSize: 10),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    if (summaryData.containsKey("Characters"))
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
                                       Text(
-                                        summaryData['Characters'],
+                                        settings['playerId'],
                                         style: TextStyle(
                                             color: settings['secondaryColor'],
                                             fontWeight: FontWeight.bold,
                                             fontFamily: "PS2P",
                                             fontSize: 10),
                                       ),
-                                    if (summaryData.containsKey("Fame"))
-                                      SizedBox(
-                                        height: 7,
-                                      ),
-                                    if (summaryData.containsKey("Fame"))
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            "images/fame.png",
-                                            height: 15,
-                                            width: 15,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            summaryData['Fame'].split(" ")[0],
-                                            style: TextStyle(
-                                                color:
-                                                    settings['secondaryColor'],
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PS2P",
-                                                fontSize: 10),
-                                          ),
-                                        ],
-                                      ),
-                                    if (summaryData.containsKey("Account fame"))
-                                      SizedBox(
-                                        height: 7,
-                                      ),
-                                    if (summaryData.containsKey("Account fame"))
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            "images/fame.png",
-                                            height: 15,
-                                            width: 15,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            summaryData['Account fame']
-                                                .split(" ")[0],
-                                            style: TextStyle(
-                                                color:
-                                                    settings['secondaryColor'],
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PS2P",
-                                                fontSize: 10),
-                                          ),
-                                        ],
-                                      ),
-                                    if (summaryData.containsKey("Rank"))
-                                      SizedBox(
-                                        height: 2,
-                                      ),
-                                    if (summaryData.containsKey("Rank"))
-                                      Row(
-                                        children: [
-                                          accountStar(),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            summaryData['Rank'].split(" ")[0],
-                                            style: TextStyle(
-                                                color:
-                                                    settings['secondaryColor'],
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PS2P",
-                                                fontSize: 10),
-                                          ),
-                                        ],
-                                      ),
-                                    if (summaryData.containsKey("Rank"))
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                    if (summaryData.containsKey("Guild"))
-                                      Text(
-                                        summaryData['Guild'],
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Guild"))
                                       SizedBox(
                                         height: 10,
                                       ),
-                                    if (summaryData.containsKey("Guild Rank"))
-                                      Text(
-                                        summaryData['Guild Rank'].split(" ")[0],
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Guild Rank"))
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    if (summaryData.containsKey("First seen") &&
-                                        summaryData["First seen"] != "hidden")
-                                      Text(
-                                        summaryData['First seen'],
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("First seen") &&
-                                        summaryData["First seen"] == "hidden")
-                                      Text(
-                                        "hidden",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Created") &&
-                                        summaryData["Created"] != "hidden")
-                                      Text(
-                                        summaryData['Created'],
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Created") &&
-                                        summaryData["Created"] == "hidden")
-                                      Text(
-                                        "hidden",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData.containsKey("Created"))
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    if (summaryData.containsKey("Last seen") &&
-                                        summaryData.containsKey("First seen"))
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    if (summaryData["Last seen"] != "hidden")
-                                      Text(
-                                        formatTime(DateTime.parse(
-                                                summaryData['Last seen']
-                                                    .split(" at ")[0])
-                                            .millisecondsSinceEpoch),
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      ),
-                                    if (summaryData["Last seen"] == "hidden")
-                                      Text(
-                                        "hidden",
-                                        style: TextStyle(
-                                            color: settings['secondaryColor'],
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "PS2P",
-                                            fontSize: 10),
-                                      )
-                                  ],
-                                ),
-                              )
-                            ],
+                                      if (summaryData.containsKey("Characters"))
+                                        Text(
+                                          summaryData['Characters'],
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Fame"))
+                                        SizedBox(
+                                          height: 7,
+                                        ),
+                                      if (summaryData.containsKey("Fame"))
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image.asset(
+                                              "images/fame.png",
+                                              height: 15,
+                                              width: 15,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              summaryData['Fame'].split(" ")[0],
+                                              style: TextStyle(
+                                                  color: settings[
+                                                      'secondaryColor'],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PS2P",
+                                                  fontSize: 10),
+                                            ),
+                                          ],
+                                        ),
+                                      if (summaryData
+                                          .containsKey("Account fame"))
+                                        SizedBox(
+                                          height: 7,
+                                        ),
+                                      if (summaryData
+                                          .containsKey("Account fame"))
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Image.asset(
+                                              "images/fame.png",
+                                              height: 15,
+                                              width: 15,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              summaryData['Account fame']
+                                                  .split(" ")[0],
+                                              style: TextStyle(
+                                                  color: settings[
+                                                      'secondaryColor'],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PS2P",
+                                                  fontSize: 10),
+                                            ),
+                                          ],
+                                        ),
+                                      if (summaryData.containsKey("Rank"))
+                                        SizedBox(
+                                          height: 2,
+                                        ),
+                                      if (summaryData.containsKey("Rank"))
+                                        Row(
+                                          children: [
+                                            accountStar(),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              summaryData['Rank'].split(" ")[0],
+                                              style: TextStyle(
+                                                  color: settings[
+                                                      'secondaryColor'],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "PS2P",
+                                                  fontSize: 10),
+                                            ),
+                                          ],
+                                        ),
+                                      if (summaryData.containsKey("Rank"))
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                      if (summaryData.containsKey("Guild"))
+                                        Text(
+                                          summaryData['Guild'],
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Guild"))
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      if (summaryData.containsKey("Guild Rank"))
+                                        Text(
+                                          summaryData['Guild Rank']
+                                              .split(" ")[0],
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Guild Rank"))
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      if (summaryData
+                                              .containsKey("First seen") &&
+                                          summaryData["First seen"] != "hidden")
+                                        Text(
+                                          summaryData['First seen'],
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData
+                                              .containsKey("First seen") &&
+                                          summaryData["First seen"] == "hidden")
+                                        Text(
+                                          "hidden",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Created") &&
+                                          summaryData["Created"] != "hidden")
+                                        Text(
+                                          summaryData['Created'],
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Created") &&
+                                          summaryData["Created"] == "hidden")
+                                        Text(
+                                          "hidden",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData.containsKey("Created"))
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      if (summaryData
+                                              .containsKey("Last seen") &&
+                                          summaryData.containsKey("First seen"))
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      if (summaryData["Last seen"] != "hidden")
+                                        Text(
+                                          formatTime(DateTime.parse(
+                                                  summaryData['Last seen']
+                                                      .split(" at ")[0])
+                                              .millisecondsSinceEpoch),
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      if (summaryData["Last seen"] == "hidden")
+                                        Text(
+                                          "hidden",
+                                          style: TextStyle(
+                                              color: settings['secondaryColor'],
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
