@@ -1,22 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 // Config file for settings on what to display.
 // In the future, the app will give a menu to change these settings and they will
 // be saved somewhere else and then loaded in here using the ReadStream function.
-Map<String, dynamic> settings = {
-  'weapons': true,
-  'armor': true,
-  'eggs': true,
-  'rings': true,
-  'pots': true,
-  'class': true,
-  'st': true,
-  'primaryColor': Colors.blue[100],
-  'secondaryColor': Colors.blue[700],
-  'whiteTheme': true,
-  'playerTracker': false,
-  'playerId': null,
-};
+
+var settings = Hive.box('settings');
 
 List<Map> sellingItems;
 List<Map> buyingItems;
@@ -204,70 +192,3 @@ List<List<String>> specialThemed = [
   // Other sets aren't added because they don't provide a set bonus for every piece like these above.
   // It's a design option, not an oversight.
 ];
-
-// drawer: Container(
-//   padding: EdgeInsets.all(20),
-//   width: 300,
-//   color: settings['primaryColor'],
-//   child: Column(
-//       mainAxisSize: MainAxisSize.min,
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding:
-//               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-//           child: Text(
-//             "Change different options",
-//             textAlign: TextAlign.center,
-//             style: TextStyle(
-//                 color: settings['secondaryColor'],
-//                 fontFamily: "PS2P",
-//                 fontSize: 11),
-//           ),
-//         ),
-//         Padding(
-//           padding:
-//               const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-//           child: Container(
-//             decoration: BoxDecoration(
-//                 border: Border.all(
-//                     width: 5, color: settings['secondaryColor']),
-//                 color: settings['primaryColor'],
-//                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
-//                 boxShadow: [
-//                   BoxShadow(
-//                       color: settings['secondaryColor'],
-//                       offset: Offset(2, 2),
-//                       blurRadius: 3)
-//                 ]),
-//             child: CheckboxListTile(
-//                 title: Text(
-//                   "Use White Theme?",
-//                   style: TextStyle(
-//                       color: settings['secondaryColor'],
-//                       fontFamily: "PS2P",
-//                       fontSize: 10),
-//                 ),
-//                 controlAffinity: ListTileControlAffinity.trailing,
-//                 activeColor: settings['primaryColor'],
-//                 checkColor: settings['secondaryColor'],
-//                 value: settings['whiteTheme'],
-//                 onChanged: (bool state) {
-//                   if (state == true) {
-//                     setState(() {
-//                       settings['whiteTheme'] = state;
-//                       settings['primaryColor'] = Colors.white;
-//                       settings['secondaryColor'] = Colors.black;
-//                     });
-//                   } else {
-//                     setState(() {
-//                       settings['whiteTheme'] = state;
-//                       settings['primaryColor'] = Colors.black;
-//                       settings['secondaryColor'] = Colors.white;
-//                     });
-//                   }
-//                 }),
-//           ),
-//         ),
-//       ]),
-// ),

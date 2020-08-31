@@ -25,12 +25,12 @@ class _SpecificItemState extends State<SpecificItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: settings['primaryColor'],
+        backgroundColor: Color(settings.get('primaryColor')),
         centerTitle: true,
         leading: RawMaterialButton(
           child: Icon(
             Icons.arrow_back,
-            color: settings['secondaryColor'],
+            color: Color(settings.get('secondaryColor')),
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -58,7 +58,7 @@ class _SpecificItemState extends State<SpecificItem> {
             Text(
               imageInfo[0],
               style: TextStyle(
-                  color: settings['secondaryColor'],
+                  color: Color(settings.get('secondaryColor')),
                   fontWeight: FontWeight.bold,
                   fontFamily: "PS2P",
                   fontSize: 12),
@@ -70,7 +70,7 @@ class _SpecificItemState extends State<SpecificItem> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: settings['primaryColor'],
+          color: Color(settings.get('primaryColor')),
           image: DecorationImage(
               image: AssetImage('assets/backgrounds/triangular.png'),
               scale: 2,
@@ -90,7 +90,7 @@ class _SpecificItemState extends State<SpecificItem> {
               } else {
                 return Center(
                   child: CircularProgressIndicator(
-                    backgroundColor: settings['secondaryColor'],
+                    backgroundColor: Color(settings.get('secondaryColor')),
                     strokeWidth: 8,
                   ),
                 );
@@ -271,14 +271,15 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
-              border: Border.all(width: 3, color: settings['secondaryColor']),
-              color: settings['whiteTheme'] == true
+              border: Border.all(
+                  width: 3, color: Color(settings.get('secondaryColor'))),
+              color: settings.get('whiteTheme') == true
                   ? Colors.blue[200]
                   : Colors.grey[900],
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
               boxShadow: [
                 BoxShadow(
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     offset: Offset(2, 2),
                     blurRadius: 2)
               ]),
@@ -292,7 +293,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                 style: TextStyle(
                     fontFamily: "PS2P",
                     fontSize: 10,
-                    color: settings['secondaryColor']),
+                    color: Color(settings.get('secondaryColor'))),
               ),
               if (condensedOffers[keys[i]]['server'] != null)
                 Padding(
@@ -303,7 +304,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                     style: TextStyle(
                         fontFamily: "PS2P",
                         fontSize: 10,
-                        color: settings['secondaryColor']),
+                        color: Color(settings.get('secondaryColor'))),
                   ),
                 ),
               Row(
@@ -332,7 +333,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 1)
@@ -354,7 +355,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 2)
@@ -376,7 +377,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerOutIds'].length > 3)
@@ -398,7 +399,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                     ],
@@ -408,7 +409,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                     child: Icon(
                       Icons.arrow_forward,
                       size: 20,
-                      color: settings['secondaryColor'],
+                      color: Color(settings.get('secondaryColor')),
                     ),
                   ),
                   Wrap(
@@ -433,7 +434,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerInIds'].length > 1)
@@ -455,7 +456,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                       if (condensedOffers[keys[i]]['offerInIds'].length > 2)
@@ -475,7 +476,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                           style: TextStyle(
                               fontFamily: "PS2P",
                               fontSize: 8,
-                              color: settings['secondaryColor']),
+                              color: Color(settings.get('secondaryColor'))),
                         ),
                       if (condensedOffers[keys[i]]['offerInIds'].length > 3)
                         Tooltip(
@@ -496,7 +497,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                             style: TextStyle(
                                 fontFamily: "PS2P",
                                 fontSize: 8,
-                                color: settings['secondaryColor']),
+                                color: Color(settings.get('secondaryColor'))),
                           ),
                         ),
                     ],
@@ -513,7 +514,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
                   style: TextStyle(
                       fontFamily: "PS2P",
                       fontSize: 10,
-                      color: settings['secondaryColor']),
+                      color: Color(settings.get('secondaryColor'))),
                 ),
               ),
             ],
@@ -537,7 +538,7 @@ Future<List<Widget>> retrieveItemOffers(String link) async {
         child: Text(
           "No offers here!",
           style: TextStyle(
-              color: settings['secondaryColor'],
+              color: Color(settings.get('secondaryColor')),
               fontSize: 15,
               fontFamily: "P2SP"),
         ),

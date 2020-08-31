@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'data.dart';
 import 'main.dart';
 import 'package:time_formatter/time_formatter.dart';
@@ -17,6 +18,7 @@ Image starColor;
 // Essa variável limpa as estatisticas de charObject e organiza elas
 Map<int, Map<String, dynamic>> charData = {};
 // Essa variavel guarda os min/max de cada classe
+
 //! Esse map precisará ser atualizado no futuro quando a atualização de IC/OOC chegar e modificar os atributos bases de vários personagens.
 Map<String, Map<String, int>> charStatsParams = {
   "Rogue": {
@@ -183,6 +185,13 @@ Map<String, Map<String, int>> charStatsParams = {
 
 class _AccountState extends State<Account> {
   Future<List<Widget>> charsList() async {
+    var account = await Hive.openBox('account');
+    if (account.containsKey('playerTracker') &&
+        account.containsKey('playerId')) {
+      account.put('playerTracker', false);
+      account.put('playerId', null);
+    }
+
     List<Widget> chars = [];
     await playerData();
 
@@ -193,7 +202,7 @@ class _AccountState extends State<Account> {
           child: Text(
             "Server: ${charData[char]['server']}",
             style: TextStyle(
-                color: settings['secondaryColor'],
+                color: Color(settings.get('secondaryColor')),
                 fontFamily: "PS2P",
                 fontSize: 12),
             textAlign: TextAlign.center,
@@ -210,12 +219,13 @@ class _AccountState extends State<Account> {
           margin: EdgeInsets.all(5),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: settings['primaryColor'],
-              border: Border.all(width: 3, color: settings['secondaryColor']),
+              color: Color(settings.get('primaryColor')),
+              border: Border.all(
+                  width: 3, color: Color(settings.get('secondaryColor'))),
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
               boxShadow: [
                 BoxShadow(
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     offset: Offset(2, 2),
                     blurRadius: 3)
               ]),
@@ -240,7 +250,7 @@ class _AccountState extends State<Account> {
                       Text(
                         await charData[k]['stats']['maxed'],
                         style: TextStyle(
-                            color: settings['secondaryColor'],
+                            color: Color(settings.get('secondaryColor')),
                             fontFamily: "PS2P",
                             fontSize: 12),
                         textAlign: TextAlign.center,
@@ -251,7 +261,7 @@ class _AccountState extends State<Account> {
                       Text(
                         await charData[k]['class'],
                         style: TextStyle(
-                            color: settings['secondaryColor'],
+                            color: Color(settings.get('secondaryColor')),
                             fontFamily: "PS2P",
                             fontSize: 12),
                         textAlign: TextAlign.center,
@@ -275,7 +285,7 @@ class _AccountState extends State<Account> {
                       Text(
                         "${await charData[k]['fame']}",
                         style: TextStyle(
-                            color: settings['secondaryColor'],
+                            color: Color(settings.get('secondaryColor')),
                             fontFamily: "PS2P",
                             fontSize: 12),
                         textAlign: TextAlign.center,
@@ -307,26 +317,27 @@ class _AccountState extends State<Account> {
                                           ['life']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -349,26 +360,27 @@ class _AccountState extends State<Account> {
                                           ['mana']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -395,26 +407,27 @@ class _AccountState extends State<Account> {
                                           ['attack']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -437,26 +450,27 @@ class _AccountState extends State<Account> {
                                           ['defense']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] != Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.white),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.white),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.white),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.white),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') != Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.white),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.white),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.white),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.white),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -483,26 +497,27 @@ class _AccountState extends State<Account> {
                                           ['speed']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -525,26 +540,27 @@ class _AccountState extends State<Account> {
                                           ['vitality']
                                   ? FontWeight.w900
                                   : FontWeight.w100,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -571,26 +587,27 @@ class _AccountState extends State<Account> {
                                           ['wisdom']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -613,26 +630,27 @@ class _AccountState extends State<Account> {
                                           ['dexterity']
                                   ? FontWeight.bold
                                   : FontWeight.normal,
-                              shadows: settings['primaryColor'] == Colors.black
-                                  ? []
-                                  : [
-                                      Shadow(
-                                          // bottomLeft
-                                          offset: Offset(-1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // bottomRight
-                                          offset: Offset(1, -1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topRight
-                                          offset: Offset(1, 1),
-                                          color: Colors.black),
-                                      Shadow(
-                                          // topLeft
-                                          offset: Offset(-1, 1),
-                                          color: Colors.black),
-                                    ]),
+                              shadows:
+                                  settings.get('primaryColor') == Colors.black
+                                      ? []
+                                      : [
+                                          Shadow(
+                                              // bottomLeft
+                                              offset: Offset(-1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // bottomRight
+                                              offset: Offset(1, -1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topRight
+                                              offset: Offset(1, 1),
+                                              color: Colors.black),
+                                          Shadow(
+                                              // topLeft
+                                              offset: Offset(-1, 1),
+                                              color: Colors.black),
+                                        ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -696,11 +714,11 @@ class _AccountState extends State<Account> {
     summaryData = {};
     charData = {};
 
-    if (await webScraper.loadWebPage('/player/${settings['playerId']}')) {
+    if (await webScraper.loadWebPage('/player/${settings.get('playerId')}')) {
       try {
         // Isso "acerta" a ID do jogador com maiúsculas e minusculas, como está no RealmEye.
         webScraper.getElement('h1 > span.entity-name', []).forEach((e) {
-          settings['playerId'] = e['title'];
+          settings.put('playerId', e['title']);
         });
         // Isso puxa informação da conta do usuário acessado.
         summaryObject =
@@ -831,8 +849,8 @@ class _AccountState extends State<Account> {
         }
       } catch (e) {
         setState(() {
-          settings['playerTracker'] = false;
-          settings['playerId'] = null;
+          settings.put('playerTracker', false);
+          settings.put('playerId', null);
         });
       }
     }
@@ -842,22 +860,21 @@ class _AccountState extends State<Account> {
 // 💀
   @override
   Widget build(BuildContext context) {
-    if (settings['playerTracker']) {
+    if (settings.get('playerTracker') ?? false) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: settings['primaryColor'],
+          centerTitle: true,
+          backgroundColor: Color(settings.get('primaryColor')),
           elevation: 0,
-          title: Center(
-            child: Tooltip(
-              message: "Account Tracker",
-              child: Text(
-                "Account Tracker",
-                style: TextStyle(
-                    color: settings['secondaryColor'],
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "PS2P",
-                    fontSize: 10),
-              ),
+          title: Tooltip(
+            message: "Account Tracker",
+            child: Text(
+              "Account Tracker",
+              style: TextStyle(
+                  color: Color(settings.get('secondaryColor')),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "PS2P",
+                  fontSize: 14),
             ),
           ),
           leading: Tooltip(
@@ -870,7 +887,7 @@ class _AccountState extends State<Account> {
                 icon: Icon(
                   Icons.arrow_back,
                   size: 30,
-                  color: settings['secondaryColor'],
+                  color: Color(settings.get('secondaryColor')),
                 ),
               ),
             ),
@@ -881,20 +898,20 @@ class _AccountState extends State<Account> {
                 message: "Stop tracking this account.",
                 child: Icon(
                   Icons.remove_circle_outline,
-                  color: settings['secondaryColor'],
+                  color: Color(settings.get('secondaryColor')),
                 ),
               ),
               onPressed: () async {
                 setState(() {
-                  settings['playerTracker'] = false;
-                  settings['playerId'] = null;
+                  settings.put('playerTracker', false);
+                  settings.put('playerId', null);
                 });
               },
             ),
           ],
         ),
         body: Container(
-          color: settings['whiteTheme'] == true
+          color: settings.get('whiteTheme') == true
               ? Colors.blue[200]
               : Colors.grey[900],
           child: FutureBuilder(
@@ -902,532 +919,538 @@ class _AccountState extends State<Account> {
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Tooltip(
-                            message:
-                                "Information provided about this account on RealmEye.",
-                            child: Text(
-                              "Account Summary:",
-                              style: TextStyle(
-                                  color: settings['secondaryColor'],
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "PS2P",
-                                  fontSize: 10),
-                            ),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Tooltip(
+                          message:
+                              "Information provided about this account on RealmEye.",
+                          child: Text(
+                            "Summary:",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 18),
                           ),
                         ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: settings['primaryColor'],
-                                border: Border.all(
-                                    width: 3,
-                                    color: settings['secondaryColor']),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: settings['secondaryColor'],
-                                      offset: Offset(2, 2),
-                                      blurRadius: 3)
-                                ]),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Color(settings.get('primaryColor')),
+                              border: Border.all(
+                                  width: 3,
+                                  color: Color(settings.get('secondaryColor'))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color:
+                                        Color(settings.get('secondaryColor')),
+                                    offset: Offset(2, 2),
+                                    blurRadius: 3)
+                              ]),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Account name:",
+                                      style: TextStyle(
+                                          color: Color(
+                                              settings.get('secondaryColor')),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "PS2P",
+                                          fontSize: 10),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    if (summaryData.containsKey("Characters"))
                                       Text(
-                                        "Account name:",
+                                        "Characters:",
                                         style: TextStyle(
-                                            color: settings['secondaryColor'],
+                                            color: Color(
+                                                settings.get('secondaryColor')),
                                             fontWeight: FontWeight.bold,
                                             fontFamily: "PS2P",
                                             fontSize: 10),
                                       ),
-                                      SizedBox(
-                                        height: 10,
+                                    if (summaryData.containsKey("Fame"))
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0),
+                                        child: Text(
+                                          "Pending Fame:",
+                                          style: TextStyle(
+                                              color: Color(settings
+                                                  .get('secondaryColor')),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
                                       ),
-                                      if (summaryData.containsKey("Characters"))
-                                        Text(
-                                          "Characters:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Fame"))
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Text(
-                                            "Pending Fame:",
-                                            style: TextStyle(
-                                                color:
-                                                    settings['secondaryColor'],
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PS2P",
-                                                fontSize: 10),
-                                          ),
-                                        ),
-                                      if (summaryData
-                                          .containsKey("Account fame"))
-                                        Text(
-                                          "Fame balance:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Rank"))
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Text(
-                                            "Stars:",
-                                            style: TextStyle(
-                                                color:
-                                                    settings['secondaryColor'],
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PS2P",
-                                                fontSize: 10),
-                                          ),
-                                        ),
-                                      if (summaryData.containsKey("Guild"))
-                                        Text(
-                                          "Guild:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Guild Rank"))
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Text(
-                                            "Guild Rank:",
-                                            style: TextStyle(
-                                                color:
-                                                    settings['secondaryColor'],
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PS2P",
-                                                fontSize: 10),
-                                          ),
-                                        ),
-                                      if (summaryData.containsKey("First seen"))
-                                        Text(
-                                          "First seen:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Created"))
-                                        Text(
-                                          "Created:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData
-                                                  .containsKey("Last seen") &&
-                                              summaryData
-                                                  .containsKey("First seen") ||
-                                          summaryData
-                                                  .containsKey("Last seen") &&
-                                              summaryData
-                                                  .containsKey("Created"))
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      if (summaryData.containsKey("Last seen"))
-                                        Text(
-                                          "Last seen:",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
+                                    if (summaryData.containsKey("Account fame"))
                                       Text(
-                                        settings['playerId'],
+                                        "Fame balance:",
                                         style: TextStyle(
-                                            color: settings['secondaryColor'],
+                                            color: Color(
+                                                settings.get('secondaryColor')),
                                             fontWeight: FontWeight.bold,
                                             fontFamily: "PS2P",
                                             fontSize: 10),
                                       ),
+                                    if (summaryData.containsKey("Rank"))
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0),
+                                        child: Text(
+                                          "Stars:",
+                                          style: TextStyle(
+                                              color: Color(settings
+                                                  .get('secondaryColor')),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      ),
+                                    if (summaryData.containsKey("Guild"))
+                                      Text(
+                                        "Guild:",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Guild Rank"))
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0),
+                                        child: Text(
+                                          "Guild Rank:",
+                                          style: TextStyle(
+                                              color: Color(settings
+                                                  .get('secondaryColor')),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "PS2P",
+                                              fontSize: 10),
+                                        ),
+                                      ),
+                                    if (summaryData.containsKey("First seen"))
+                                      Text(
+                                        "First seen:",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Created"))
+                                      Text(
+                                        "Created:",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Last seen") &&
+                                            summaryData
+                                                .containsKey("First seen") ||
+                                        summaryData.containsKey("Last seen") &&
+                                            summaryData.containsKey("Created"))
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      if (summaryData.containsKey("Characters"))
-                                        Text(
-                                          summaryData['Characters'],
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Fame"))
-                                        SizedBox(
-                                          height: 7,
-                                        ),
-                                      if (summaryData.containsKey("Fame"))
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                              "images/fame.png",
-                                              height: 15,
-                                              width: 15,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              summaryData['Fame'].split(" ")[0],
-                                              style: TextStyle(
-                                                  color: settings[
-                                                      'secondaryColor'],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "PS2P",
-                                                  fontSize: 10),
-                                            ),
-                                          ],
-                                        ),
-                                      if (summaryData
-                                          .containsKey("Account fame"))
-                                        SizedBox(
-                                          height: 7,
-                                        ),
-                                      if (summaryData
-                                          .containsKey("Account fame"))
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                              "images/fame.png",
-                                              height: 15,
-                                              width: 15,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              summaryData['Account fame']
-                                                  .split(" ")[0],
-                                              style: TextStyle(
-                                                  color: settings[
-                                                      'secondaryColor'],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "PS2P",
-                                                  fontSize: 10),
-                                            ),
-                                          ],
-                                        ),
-                                      if (summaryData.containsKey("Rank"))
-                                        SizedBox(
-                                          height: 2,
-                                        ),
-                                      if (summaryData.containsKey("Rank"))
-                                        Row(
-                                          children: [
-                                            accountStar(),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              summaryData['Rank'].split(" ")[0],
-                                              style: TextStyle(
-                                                  color: settings[
-                                                      'secondaryColor'],
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: "PS2P",
-                                                  fontSize: 10),
-                                            ),
-                                          ],
-                                        ),
-                                      if (summaryData.containsKey("Rank"))
-                                        SizedBox(
-                                          height: 4,
-                                        ),
-                                      if (summaryData.containsKey("Guild"))
-                                        Text(
-                                          summaryData['Guild'],
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Guild"))
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      if (summaryData.containsKey("Guild Rank"))
-                                        Text(
-                                          summaryData['Guild Rank']
-                                              .split(" ")[0],
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Guild Rank"))
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      if (summaryData
-                                              .containsKey("First seen") &&
-                                          summaryData["First seen"] != "hidden")
-                                        Text(
-                                          summaryData['First seen'],
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData
-                                              .containsKey("First seen") &&
-                                          summaryData["First seen"] == "hidden")
-                                        Text(
-                                          "hidden",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Created") &&
-                                          summaryData["Created"] != "hidden")
-                                        Text(
-                                          summaryData['Created'],
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Created") &&
-                                          summaryData["Created"] == "hidden")
-                                        Text(
-                                          "hidden",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData.containsKey("Created"))
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      if (summaryData
-                                              .containsKey("Last seen") &&
-                                          summaryData.containsKey("First seen"))
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      if (summaryData["Last seen"] != "hidden")
-                                        Text(
-                                          formatTime(DateTime.parse(
-                                                  summaryData['Last seen']
-                                                      .split(" at ")[0])
-                                              .millisecondsSinceEpoch),
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        ),
-                                      if (summaryData["Last seen"] == "hidden")
-                                        Text(
-                                          "hidden",
-                                          style: TextStyle(
-                                              color: settings['secondaryColor'],
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PS2P",
-                                              fontSize: 10),
-                                        )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Tooltip(
-                            message:
-                                "Information about every character publicly tracked on this account.",
-                            child: Text(
-                              "Characters tracked:",
-                              style: TextStyle(
-                                  color: settings['secondaryColor'],
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "PS2P",
-                                  fontSize: 10),
-                            ),
-                          ),
-                        ),
-                        if (snapshot.data.length != 0)
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Center(
-                                child: Wrap(
-                                  alignment: WrapAlignment.center,
-                                  crossAxisAlignment: WrapCrossAlignment.center,
-                                  runAlignment: WrapAlignment.center,
-                                  children: snapshot.data,
+                                    if (summaryData.containsKey("Last seen"))
+                                      Text(
+                                        "Last seen:",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                  ],
                                 ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      settings.get('playerId'),
+                                      style: TextStyle(
+                                          color: Color(
+                                              settings.get('secondaryColor')),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "PS2P",
+                                          fontSize: 10),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    if (summaryData.containsKey("Characters"))
+                                      Text(
+                                        summaryData['Characters'],
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Fame"))
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                    if (summaryData.containsKey("Fame"))
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            "images/fame.png",
+                                            height: 15,
+                                            width: 15,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            summaryData['Fame'].split(" ")[0],
+                                            style: TextStyle(
+                                                color: Color(settings
+                                                    .get('secondaryColor')),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "PS2P",
+                                                fontSize: 10),
+                                          ),
+                                        ],
+                                      ),
+                                    if (summaryData.containsKey("Account fame"))
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                    if (summaryData.containsKey("Account fame"))
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            "images/fame.png",
+                                            height: 15,
+                                            width: 15,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            summaryData['Account fame']
+                                                .split(" ")[0],
+                                            style: TextStyle(
+                                                color: Color(settings
+                                                    .get('secondaryColor')),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "PS2P",
+                                                fontSize: 10),
+                                          ),
+                                        ],
+                                      ),
+                                    if (summaryData.containsKey("Rank"))
+                                      SizedBox(
+                                        height: 2,
+                                      ),
+                                    if (summaryData.containsKey("Rank"))
+                                      Row(
+                                        children: [
+                                          accountStar(),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            summaryData['Rank'].split(" ")[0],
+                                            style: TextStyle(
+                                                color: Color(settings
+                                                    .get('secondaryColor')),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "PS2P",
+                                                fontSize: 10),
+                                          ),
+                                        ],
+                                      ),
+                                    if (summaryData.containsKey("Rank"))
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                    if (summaryData.containsKey("Guild"))
+                                      Text(
+                                        summaryData['Guild'],
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Guild"))
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    if (summaryData.containsKey("Guild Rank"))
+                                      Text(
+                                        summaryData['Guild Rank'].split(" ")[0],
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Guild Rank"))
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    if (summaryData.containsKey("First seen") &&
+                                        summaryData["First seen"] != "hidden")
+                                      Text(
+                                        summaryData['First seen'],
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("First seen") &&
+                                        summaryData["First seen"] == "hidden")
+                                      Text(
+                                        "hidden",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Created") &&
+                                        summaryData["Created"] != "hidden")
+                                      Text(
+                                        summaryData['Created'],
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Created") &&
+                                        summaryData["Created"] == "hidden")
+                                      Text(
+                                        "hidden",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData.containsKey("Created"))
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    if (summaryData.containsKey("Last seen") &&
+                                        summaryData.containsKey("First seen"))
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    if (summaryData["Last seen"] != "hidden")
+                                      Text(
+                                        formatTime(DateTime.parse(
+                                                summaryData['Last seen']
+                                                    .split(" at ")[0])
+                                            .millisecondsSinceEpoch),
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      ),
+                                    if (summaryData["Last seen"] == "hidden")
+                                      Text(
+                                        "hidden",
+                                        style: TextStyle(
+                                            color: Color(
+                                                settings.get('secondaryColor')),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "PS2P",
+                                            fontSize: 10),
+                                      )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Tooltip(
+                          message:
+                              "Information about every character publicly tracked on this account.",
+                          child: Text(
+                            "Characters:",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 18),
+                          ),
+                        ),
+                      ),
+                      if (snapshot.data.length != 0)
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Center(
+                              child: Wrap(
+                                alignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                runAlignment: WrapAlignment.center,
+                                children: snapshot.data,
                               ),
                             ),
                           ),
-                        if (snapshot.data.length == 0)
-                          Center(
-                            child: Container(
-                              child: Tooltip(
-                                  message:
-                                      "This happens because this account has their RealmEye privacy settings to not display characters.",
-                                  child: Text(
-                                    "No characters to display!",
-                                    style: TextStyle(
-                                        color: settings['secondaryColor'],
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PS2P",
-                                        fontSize: 10),
-                                  )),
-                            ),
-                          ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Tooltip(
-                            message:
-                                "Information provided about this account on RealmEye.",
-                            child: Text(
-                              "Account Summary:",
-                              style: TextStyle(
-                                  color: settings['secondaryColor'],
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "PS2P",
-                                  fontSize: 10),
-                            ),
+                        ),
+                      if (snapshot.data.length == 0)
+                        Center(
+                          child: Container(
+                            child: Tooltip(
+                                message:
+                                    "This happens because this account has their RealmEye privacy settings to not display characters.",
+                                child: Text(
+                                  "No characters to display!",
+                                  style: TextStyle(
+                                      color:
+                                          Color(settings.get('secondaryColor')),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "PS2P",
+                                      fontSize: 10),
+                                )),
                           ),
                         ),
-                        Container(
+                    ],
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Tooltip(
+                          message:
+                              "Information provided about this account on RealmEye.",
+                          child: Text(
+                            "Summary:",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 18),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: Tooltip(
+                          message:
+                              "If this is taking too long, please press Refresh.",
+                          child: CircularProgressIndicator(
+                            backgroundColor:
+                                Color(settings.get('secondaryColor')),
+                            strokeWidth: 8,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Tooltip(
+                          message:
+                              "Information about every character publicly tracked on this account.",
+                          child: Text(
+                            "Characters:",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 18),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
                           child: Tooltip(
                             message:
                                 "If this is taking too long, please press Refresh.",
                             child: CircularProgressIndicator(
-                              backgroundColor: settings['secondaryColor'],
+                              backgroundColor:
+                                  Color(settings.get('secondaryColor')),
                               strokeWidth: 8,
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Tooltip(
-                            message:
-                                "Information about every character publicly tracked on this account.",
-                            child: Text(
-                              "Characters tracked:",
-                              style: TextStyle(
-                                  color: settings['secondaryColor'],
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "PS2P",
-                                  fontSize: 10),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            child: Tooltip(
-                              message:
-                                  "If this is taking too long, please press Refresh.",
-                              child: CircularProgressIndicator(
-                                backgroundColor: settings['secondaryColor'],
-                                strokeWidth: 8,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 }
               }),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: settings['secondaryColor'],
+          backgroundColor: Color(settings.get('secondaryColor')),
           onPressed: () {
             setState(() {
-              settings['playerTracker'] = true;
+              settings.put('playerTracker', true);
             });
           },
           tooltip: 'Refresh',
           child: Icon(
             Icons.refresh,
-            color: settings['primaryColor'],
+            color: Color(settings.get('primaryColor')),
           ),
         ),
       );
     }
     return SafeArea(
       child: Scaffold(
+        backgroundColor: settings.get('whiteTheme') == true
+            ? Colors.blue[200]
+            : Colors.grey[900],
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: settings['primaryColor'],
+          backgroundColor: Color(settings.get('primaryColor')),
           elevation: 0,
           title: Tooltip(
             message: "Account Tracker",
             child: Text(
               "Account Tracker",
               style: TextStyle(
-                  color: settings['secondaryColor'],
+                  color: Color(settings.get('secondaryColor')),
                   fontWeight: FontWeight.bold,
                   fontFamily: "PS2P",
                   fontSize: 10),
@@ -1443,18 +1466,13 @@ class _AccountState extends State<Account> {
                 icon: Icon(
                   Icons.arrow_back,
                   size: 30,
-                  color: settings['secondaryColor'],
+                  color: Color(settings.get('secondaryColor')),
                 ),
               ),
             ),
           ),
         ),
-        backgroundColor: settings['whiteTheme'] == true
-            ? Colors.blue[200]
-            : Colors.grey[900],
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
@@ -1463,14 +1481,15 @@ class _AccountState extends State<Account> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Tooltip(
+                margin: EdgeInsets.all(10),
                 message:
                     "Input below the in-game name of a player to retrieve their stats.\nIf the provided player can't be found on RealmEye, you will be returned to this screen automatically to try again.",
                 child: Text(
                   "Track an account:",
                   style: TextStyle(
                       fontFamily: "PS2P",
-                      fontSize: 12,
-                      color: settings['secondaryColor']),
+                      fontSize: 18,
+                      color: Color(settings.get('secondaryColor'))),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -1479,13 +1498,13 @@ class _AccountState extends State<Account> {
               margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
               width: 300,
               decoration: BoxDecoration(
-                  border:
-                      Border.all(width: 5, color: settings['secondaryColor']),
-                  color: settings['primaryColor'],
+                  border: Border.all(
+                      width: 5, color: Color(settings.get('secondaryColor'))),
+                  color: Color(settings.get('primaryColor')),
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   boxShadow: [
                     BoxShadow(
-                        color: settings['secondaryColor'],
+                        color: Color(settings.get('secondaryColor')),
                         offset: Offset(2, 2),
                         blurRadius: 3)
                   ]),
@@ -1495,17 +1514,17 @@ class _AccountState extends State<Account> {
                     style: TextStyle(
                         fontFamily: "PS2P",
                         fontSize: 12,
-                        color: settings['secondaryColor']),
+                        color: Color(settings.get('secondaryColor'))),
                     decoration: InputDecoration(
                       labelText: "In-Game Name?",
                       labelStyle: TextStyle(
-                          color: settings['secondaryColor'],
+                          color: Color(settings.get('secondaryColor')),
                           fontFamily: "PS2P",
                           fontSize: 10),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 3,
-                          color: settings['secondaryColor'],
+                          color: Color(settings.get('secondaryColor')),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       ),
@@ -1514,8 +1533,8 @@ class _AccountState extends State<Account> {
                     controller: TextEditingController(),
                     onSubmitted: (String value) {
                       setState(() {
-                        settings['playerId'] = value;
-                        settings['playerTracker'] = true;
+                        settings.put('playerId', value);
+                        settings.put('playerTracker', true);
                       });
                     }),
               ),

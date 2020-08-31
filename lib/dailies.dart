@@ -38,7 +38,7 @@ class _DailiesState extends State<Dailies> {
             icon: Icon(
               Icons.refresh,
               size: 30,
-              color: settings['secondaryColor'],
+              color: Color(settings.get('secondaryColor')),
             ),
             onPressed: () {
               setState(() {
@@ -55,7 +55,11 @@ class _DailiesState extends State<Dailies> {
 
   //?/ Essa é a função responsável por popular o corpo da página.
   List<Widget> dailyTracker() {
-    tracking = [];
+    tracking = [
+      SizedBox(
+        height: 10,
+      )
+    ];
     //? Essa função é responsável por popular a lista "tracking"
     //? e é chamada dentro de cada bloco "if", baseado nas configurações do usuário.
     //? craft é o Mapa com todas as informações relevantes a quest (exceto nome da marca/localização)
@@ -67,26 +71,27 @@ class _DailiesState extends State<Dailies> {
           continue;
         }
         tracking.add(Container(
-          width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           decoration: BoxDecoration(
-              border: Border.all(width: 3, color: settings['secondaryColor']),
-              color: settings['primaryColor'],
+              border: Border.all(
+                  width: 3, color: Color(settings.get('secondaryColor'))),
+              color: Color(settings.get('primaryColor')),
               borderRadius: BorderRadius.all(Radius.circular(25)),
               boxShadow: [
                 BoxShadow(
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     offset: Offset(0, 3),
                     blurRadius: 4)
               ]),
           child: Column(children: [
-            ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              child: Container(
-                padding: EdgeInsets.all(5),
-                color: settings['secondaryColor'],
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 36,
+                  padding: EdgeInsets.all(5),
+                  color: Color(settings.get('secondaryColor')),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -95,15 +100,13 @@ class _DailiesState extends State<Dailies> {
                           color: Colors.transparent,
                           size: 30,
                         ),
-                        Center(
-                          child: Text(
-                            craft[d][0],
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "PS2P",
-                                fontSize: 18),
-                          ),
+                        Text(
+                          craft[d][0],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "PS2P",
+                              fontSize: 18),
                         ),
                         IconButton(
                           constraints:
@@ -118,7 +121,7 @@ class _DailiesState extends State<Dailies> {
                           },
                           icon: Icon(
                             Icons.cancel_outlined,
-                            color: settings['primaryColor'],
+                            color: Color(settings.get('primaryColor')),
                             semanticLabel: "Click to remove quest.",
                           ),
                         )
@@ -137,7 +140,7 @@ class _DailiesState extends State<Dailies> {
                   craft[d][1],
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: settings['secondaryColor'],
+                      color: Color(settings.get('secondaryColor')),
                       fontWeight: FontWeight.bold,
                       fontFamily: "PS2P",
                       fontSize: 14),
@@ -151,7 +154,7 @@ class _DailiesState extends State<Dailies> {
               Text(
                 "Requirements:",
                 style: TextStyle(
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     fontWeight: FontWeight.bold,
                     fontFamily: "PS2P",
                     fontSize: 12),
@@ -482,7 +485,7 @@ class _DailiesState extends State<Dailies> {
               Text(
                 "Rewards:",
                 style: TextStyle(
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     fontWeight: FontWeight.bold,
                     fontFamily: "PS2P",
                     fontSize: 12),
@@ -1341,7 +1344,7 @@ class _DailiesState extends State<Dailies> {
 
       generate(quests, 6);
     }
-    if (tracking.length == 0) {
+    if (tracking.length == 1) {
       tracking.add(
         Container(
           height: MediaQuery.of(context).size.height,
@@ -1367,7 +1370,7 @@ class _DailiesState extends State<Dailies> {
                   "You overdid on the filters and now there is nothing left to display!\nClick here if you wish to reset all filters instantly and display everything again.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: settings['secondaryColor'],
+                      color: Color(settings.get('secondaryColor')),
                       fontWeight: FontWeight.bold,
                       fontFamily: "PS2P",
                       fontSize: 14),
@@ -1384,318 +1387,335 @@ class _DailiesState extends State<Dailies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          settings['whiteTheme'] == true ? Colors.blue[200] : Colors.grey[900],
+      backgroundColor: settings.get('whiteTheme') == true
+          ? Colors.blue[200]
+          : Colors.grey[900],
       //? o endDrawer é responsável por organizar os filtros dessa página.
       //? Ele pode ser acessado puxando a lateral direita da página ou apertando o botão de settings na appBar
-      endDrawer: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-        child: Container(
-          padding: EdgeInsets.all(10),
-          // width: MediaQuery.of(context).size.width * 0.4,
-          color: settings['primaryColor'],
+      endDrawer: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppBar(
-                  centerTitle: true,
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  title: Text(
-                    "Quest Filters",
-                    style: TextStyle(
-                        color: settings['secondaryColor'],
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PS2P",
-                        fontSize: 15),
-                  ),
-                  leading: IconButton(
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: settings['secondaryColor'],
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  actions: [
-                    //? Esse botão deseleciona todos os requisitos marcados.
-                    //? Gostaria que esse botão aparecesse apenas quando o usuário marcasse um botão, mas encontro o mesmo problema de cima.
-                    if (!dailiesSettings["craft"] ||
-                        !dailiesSettings["beginner"] ||
-                        !dailiesSettings["scout"] ||
-                        !dailiesSettings["standart"] ||
-                        !dailiesSettings["mighty"] ||
-                        !dailiesSettings["epic"])
-                      Tooltip(
-                        message: "Restore all original settings",
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.settings_backup_restore,
-                              size: 30,
-                              color: settings['secondaryColor'],
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                dailiesSettings["craft"] = true;
-                                dailiesSettings["beginner"] = true;
-                                dailiesSettings["scout"] = true;
-                                dailiesSettings["standart"] = true;
-                                dailiesSettings["mighty"] = true;
-                                dailiesSettings["epic"] = true;
-                              });
-                            }),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              padding: EdgeInsets.all(10),
+              // width: MediaQuery.of(context).size.width * 0.4,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.all(Radius.circular(25)),
+                color: settings.get('whiteTheme') == true
+                    ? Colors.blue[200]
+                    : Colors.grey[900],
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppBar(
+                      centerTitle: true,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      title: Text(
+                        "Quest Filters",
+                        style: TextStyle(
+                            color: Color(settings.get('secondaryColor')),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PS2P",
+                            fontSize: 15),
                       ),
-                    if (dailiesSettings["craft"] ||
-                        dailiesSettings["beginner"] ||
-                        dailiesSettings["scout"] ||
-                        dailiesSettings["standart"] ||
-                        dailiesSettings["mighty"] ||
-                        dailiesSettings["epic"])
-                      SizedBox()
+                      leading: IconButton(
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 30,
+                          color: Color(settings.get('secondaryColor')),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      actions: [
+                        //? Esse botão deseleciona todos os requisitos marcados.
+                        //? Gostaria que esse botão aparecesse apenas quando o usuário marcasse um botão, mas encontro o mesmo problema de cima.
+                        if (!dailiesSettings["craft"] ||
+                            !dailiesSettings["beginner"] ||
+                            !dailiesSettings["scout"] ||
+                            !dailiesSettings["standart"] ||
+                            !dailiesSettings["mighty"] ||
+                            !dailiesSettings["epic"])
+                          Tooltip(
+                            message: "Restore all original settings",
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.settings_backup_restore,
+                                  size: 30,
+                                  color: Color(settings.get('secondaryColor')),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    dailiesSettings["craft"] = true;
+                                    dailiesSettings["beginner"] = true;
+                                    dailiesSettings["scout"] = true;
+                                    dailiesSettings["standart"] = true;
+                                    dailiesSettings["mighty"] = true;
+                                    dailiesSettings["epic"] = true;
+                                  });
+                                }),
+                          ),
+                        if (dailiesSettings["craft"] ||
+                            dailiesSettings["beginner"] ||
+                            dailiesSettings["scout"] ||
+                            dailiesSettings["standart"] ||
+                            dailiesSettings["mighty"] ||
+                            dailiesSettings["epic"])
+                          SizedBox()
+                      ],
+                    ),
+                    Divider(
+                      indent: 25,
+                      endIndent: 25,
+                      thickness: 3,
+                      color: Color(settings.get('secondaryColor')),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 5,
+                              color: Color(settings.get('secondaryColor'))),
+                          color: Color(settings.get('primaryColor')),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(settings.get('secondaryColor')),
+                                offset: Offset(2, 2),
+                                blurRadius: 3)
+                          ]),
+                      child: Tooltip(
+                        message:
+                            "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                        child: CheckboxListTile(
+                          secondary: Image.asset('images/pots/glifepot.png'),
+                          title: Text(
+                            "Enable/Disable Crafting Quests",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: dailiesSettings['craft'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              dailiesSettings['craft'] = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 5,
+                              color: Color(settings.get('secondaryColor'))),
+                          color: Color(settings.get('primaryColor')),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(settings.get('secondaryColor')),
+                                offset: Offset(2, 2),
+                                blurRadius: 3)
+                          ]),
+                      child: Tooltip(
+                        message:
+                            "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                        child: CheckboxListTile(
+                          secondary: Image.asset(
+                              'images/quests/rewards/beginnerchest.png'),
+                          title: Text(
+                            "Enable/Disable Beginner Quests",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: dailiesSettings['beginner'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              dailiesSettings['beginner'] = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 5,
+                              color: Color(settings.get('secondaryColor'))),
+                          color: Color(settings.get('primaryColor')),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(settings.get('secondaryColor')),
+                                offset: Offset(2, 2),
+                                blurRadius: 3)
+                          ]),
+                      child: Tooltip(
+                        message:
+                            "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                        child: CheckboxListTile(
+                          secondary: Image.asset('images/pots/mysterypot.png'),
+                          title: Text(
+                            "Enable/Disable Scout Quests",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: dailiesSettings['scout'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              dailiesSettings['scout'] = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 5,
+                              color: Color(settings.get('secondaryColor'))),
+                          color: Color(settings.get('primaryColor')),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(settings.get('secondaryColor')),
+                                offset: Offset(2, 2),
+                                blurRadius: 3)
+                          ]),
+                      child: Tooltip(
+                        message:
+                            "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                        child: CheckboxListTile(
+                          secondary: Image.asset(
+                              'images/quests/rewards/standartchest.png'),
+                          title: Text(
+                            "Enable/Disable Standart Quests",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: dailiesSettings['standart'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              dailiesSettings['standart'] = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 5,
+                              color: Color(settings.get('secondaryColor'))),
+                          color: Color(settings.get('primaryColor')),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(settings.get('secondaryColor')),
+                                offset: Offset(2, 2),
+                                blurRadius: 3)
+                          ]),
+                      child: Tooltip(
+                        message:
+                            "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                        child: CheckboxListTile(
+                          secondary: Image.asset(
+                              'images/quests/rewards/mightychest.png'),
+                          title: Text(
+                            "Enable/Disable Mighty Quests",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: dailiesSettings['mighty'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              dailiesSettings['mighty'] = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 5,
+                              color: Color(settings.get('secondaryColor'))),
+                          color: Color(settings.get('primaryColor')),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(settings.get('secondaryColor')),
+                                offset: Offset(2, 2),
+                                blurRadius: 3)
+                          ]),
+                      child: Tooltip(
+                        message:
+                            "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
+                        child: CheckboxListTile(
+                          secondary: Image.asset(
+                              'images/quests/rewards/voidepicchest.png'),
+                          title: Text(
+                            "Enable/Disable Epic Quests",
+                            style: TextStyle(
+                                color: Color(settings.get('secondaryColor')),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PS2P",
+                                fontSize: 10),
+                          ),
+                          value: dailiesSettings['epic'],
+                          onChanged: (bool value) {
+                            setState(() {
+                              dailiesSettings['epic'] = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                Divider(
-                  indent: 25,
-                  endIndent: 25,
-                  thickness: 3,
-                  color: settings['secondaryColor'],
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: settings['secondaryColor']),
-                      color: settings['primaryColor'],
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: settings['secondaryColor'],
-                            offset: Offset(2, 2),
-                            blurRadius: 3)
-                      ]),
-                  child: Tooltip(
-                    message:
-                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                    child: CheckboxListTile(
-                      secondary: Image.asset('images/pots/glifepot.png'),
-                      title: Text(
-                        "Enable/Disable Crafting Quests",
-                        style: TextStyle(
-                            color: settings['secondaryColor'],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 10),
-                      ),
-                      value: dailiesSettings['craft'],
-                      onChanged: (bool value) {
-                        setState(() {
-                          dailiesSettings['craft'] = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: settings['secondaryColor']),
-                      color: settings['primaryColor'],
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: settings['secondaryColor'],
-                            offset: Offset(2, 2),
-                            blurRadius: 3)
-                      ]),
-                  child: Tooltip(
-                    message:
-                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                    child: CheckboxListTile(
-                      secondary: Image.asset(
-                          'images/quests/rewards/beginnerchest.png'),
-                      title: Text(
-                        "Enable/Disable Beginner Quests",
-                        style: TextStyle(
-                            color: settings['secondaryColor'],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 10),
-                      ),
-                      value: dailiesSettings['beginner'],
-                      onChanged: (bool value) {
-                        setState(() {
-                          dailiesSettings['beginner'] = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: settings['secondaryColor']),
-                      color: settings['primaryColor'],
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: settings['secondaryColor'],
-                            offset: Offset(2, 2),
-                            blurRadius: 3)
-                      ]),
-                  child: Tooltip(
-                    message:
-                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                    child: CheckboxListTile(
-                      secondary: Image.asset('images/pots/mysterypot.png'),
-                      title: Text(
-                        "Enable/Disable Scout Quests",
-                        style: TextStyle(
-                            color: settings['secondaryColor'],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 10),
-                      ),
-                      value: dailiesSettings['scout'],
-                      onChanged: (bool value) {
-                        setState(() {
-                          dailiesSettings['scout'] = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: settings['secondaryColor']),
-                      color: settings['primaryColor'],
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: settings['secondaryColor'],
-                            offset: Offset(2, 2),
-                            blurRadius: 3)
-                      ]),
-                  child: Tooltip(
-                    message:
-                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                    child: CheckboxListTile(
-                      secondary: Image.asset(
-                          'images/quests/rewards/standartchest.png'),
-                      title: Text(
-                        "Enable/Disable Standart Quests",
-                        style: TextStyle(
-                            color: settings['secondaryColor'],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 10),
-                      ),
-                      value: dailiesSettings['standart'],
-                      onChanged: (bool value) {
-                        setState(() {
-                          dailiesSettings['standart'] = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: settings['secondaryColor']),
-                      color: settings['primaryColor'],
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: settings['secondaryColor'],
-                            offset: Offset(2, 2),
-                            blurRadius: 3)
-                      ]),
-                  child: Tooltip(
-                    message:
-                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                    child: CheckboxListTile(
-                      secondary:
-                          Image.asset('images/quests/rewards/mightychest.png'),
-                      title: Text(
-                        "Enable/Disable Mighty Quests",
-                        style: TextStyle(
-                            color: settings['secondaryColor'],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 10),
-                      ),
-                      value: dailiesSettings['mighty'],
-                      onChanged: (bool value) {
-                        setState(() {
-                          dailiesSettings['mighty'] = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: settings['secondaryColor']),
-                      color: settings['primaryColor'],
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: settings['secondaryColor'],
-                            offset: Offset(2, 2),
-                            blurRadius: 3)
-                      ]),
-                  child: Tooltip(
-                    message:
-                        "Enable/disable offers for normal and greater potions, plus Wine Cellar Incantations.",
-                    child: CheckboxListTile(
-                      secondary: Image.asset(
-                          'images/quests/rewards/voidepicchest.png'),
-                      title: Text(
-                        "Enable/Disable Epic Quests",
-                        style: TextStyle(
-                            color: settings['secondaryColor'],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PS2P",
-                            fontSize: 10),
-                      ),
-                      value: dailiesSettings['epic'],
-                      onChanged: (bool value) {
-                        setState(() {
-                          dailiesSettings['epic'] = value;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
       ),
+
       appBar: AppBar(
         //? Centraliza o título considerando o espaço total da appBar, ao invés de usar apenas o tamanho restante padrão
         centerTitle: true,
-        backgroundColor: settings['primaryColor'],
+        backgroundColor: Color(settings.get('primaryColor')),
         //? remove a sombra do fundo que dá impressão da appBar estar acima do resto do conteudo.
         elevation: 0,
         title: Tooltip(
@@ -1703,7 +1723,7 @@ class _DailiesState extends State<Dailies> {
           child: Text(
             "Dailies Tracker",
             style: TextStyle(
-                color: settings['secondaryColor'],
+                color: Color(settings.get('secondaryColor')),
                 fontWeight: FontWeight.bold,
                 fontFamily: "PS2P",
                 fontSize: 10),
@@ -1719,7 +1739,7 @@ class _DailiesState extends State<Dailies> {
               icon: Icon(
                 Icons.arrow_back,
                 size: 30,
-                color: settings['secondaryColor'],
+                color: Color(settings.get('secondaryColor')),
               ),
             ),
           ),
@@ -1734,7 +1754,7 @@ class _DailiesState extends State<Dailies> {
                 icon: Icon(
                   dailiesSettings['listMode'] ? Icons.add : Icons.remove,
                   size: 30,
-                  color: settings['secondaryColor'],
+                  color: Color(settings.get('secondaryColor')),
                 ),
                 onPressed: () {
                   if (dailiesSettings['listMode']) {
@@ -1757,7 +1777,7 @@ class _DailiesState extends State<Dailies> {
                   icon: Icon(
                     Icons.restore,
                     size: 30,
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                   ),
                   onPressed: () {
                     setState(() {
@@ -1775,7 +1795,7 @@ class _DailiesState extends State<Dailies> {
               child: IconButton(
                   icon: Icon(
                     Icons.filter_alt,
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     size: 30,
                   ),
                   onPressed: () => Scaffold.of(context).openEndDrawer()),

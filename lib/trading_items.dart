@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'data.dart';
 import 'specific_item.dart';
 import 'main.dart';
@@ -17,6 +18,7 @@ class TradingItems extends StatefulWidget {
 
 class _TradingItemsState extends State<TradingItems> {
   Future<List<Widget>> renderItems() async {
+    var trade = await Hive.openBox('trade');
     Future<Map> _scrapeOffers() async {
       // This is meant to be initial value so the app force renders something while it waits for the web requests to finish
       Map<String, dynamic> updatedOffers = {};
@@ -73,11 +75,11 @@ class _TradingItemsState extends State<TradingItems> {
     final data = await _scrapeOffers();
 
     List<Widget> displayItems = [];
-    if (settings['pots']) {
+    if (await trade.get('pots') ?? true) {
       for (List<String> pot in renderPotions) {
         if (data.containsKey(pot[0])) {
           displayItems
-              .add(_addItem(pot, data[pot[0]], settings['secondaryColor']));
+              .add(_addItem(pot, data[pot[0]], settings.get('secondaryColor')));
           if (data[pot[0]]['buyLink'] != null) {
             allOffers[int.parse(
                 data[pot[0]]['buyLink'].replaceAll('/offers-to/buy/', ''))] = {
@@ -95,11 +97,11 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (settings['weapons']) {
+    if (await trade.get('weapons') ?? true) {
       for (List<String> weapon in renderWeapons) {
         if (data.containsKey(weapon[0])) {
-          displayItems.add(
-              _addItem(weapon, data[weapon[0]], settings['secondaryColor']));
+          displayItems.add(_addItem(
+              weapon, data[weapon[0]], settings.get('secondaryColor')));
 
           if (data[weapon[0]]['buyLink'] != null) {
             allOffers[int.parse(data[weapon[0]]['buyLink']
@@ -118,11 +120,11 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (settings['class']) {
+    if (await trade.get('class') ?? true) {
       for (List<String> classItem in renderClassItems) {
         if (data.containsKey(classItem[0])) {
           displayItems.add(_addItem(
-              classItem, data[classItem[0]], settings['secondaryColor']));
+              classItem, data[classItem[0]], settings.get('secondaryColor')));
           if (data[classItem[0]]['buyLink'] != null) {
             allOffers[int.parse(data[classItem[0]]['buyLink']
                 .replaceAll('/offers-to/buy/', ''))] = {
@@ -140,11 +142,11 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (settings['armor']) {
+    if (await trade.get('armor') ?? true) {
       for (List<String> armor in renderArmor) {
         if (data.containsKey(armor[0])) {
-          displayItems
-              .add(_addItem(armor, data[armor[0]], settings['secondaryColor']));
+          displayItems.add(
+              _addItem(armor, data[armor[0]], settings.get('secondaryColor')));
 
           if (data[armor[0]]['buyLink'] != null) {
             allOffers[int.parse(data[armor[0]]['buyLink']
@@ -163,11 +165,11 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (settings['rings']) {
+    if (await trade.get('rings') ?? true) {
       for (List<String> ring in renderRings) {
         if (data.containsKey(ring[0])) {
-          displayItems
-              .add(_addItem(ring, data[ring[0]], settings['secondaryColor']));
+          displayItems.add(
+              _addItem(ring, data[ring[0]], settings.get('secondaryColor')));
 
           if (data[ring[0]]['buyLink'] != null) {
             allOffers[int.parse(
@@ -186,11 +188,11 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (settings['eggs']) {
+    if (await trade.get('eggs') ?? true) {
       for (List<String> egg in renderEggs) {
         if (data.containsKey(egg[0])) {
           displayItems
-              .add(_addItem(egg, data[egg[0]], settings['secondaryColor']));
+              .add(_addItem(egg, data[egg[0]], settings.get('secondaryColor')));
 
           if (data[egg[0]]['buyLink'] != null) {
             allOffers[int.parse(
@@ -209,10 +211,10 @@ class _TradingItemsState extends State<TradingItems> {
       }
     }
 
-    if (settings['st']) {
+    if (await trade.get('st') ?? true) {
       for (List<String> theme in specialThemed) {
         if (data.containsKey(theme[0])) {
-          displayItems.add(_addItem(theme, data[theme[0]], Colors.orange[700]));
+          displayItems.add(_addItem(theme, data[theme[0]], 0xFFF57C00));
           if (data[theme[0]]['buyLink'] != null) {
             allOffers[int.parse(data[theme[0]]['buyLink']
                 .replaceAll('/offers-to/buy/', ''))] = {
@@ -233,16 +235,16 @@ class _TradingItemsState extends State<TradingItems> {
     return displayItems;
   }
 
-  Container _addItem(List databaseItem, Map passedOffer, Color borderColor) {
+  Container _addItem(List databaseItem, Map passedOffer, int borderColor) {
     return Container(
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-          border: Border.all(width: 2, color: borderColor),
-          color: settings['primaryColor'],
+          border: Border.all(width: 2, color: Color(borderColor)),
+          color: Color(settings.get('primaryColor')),
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
           boxShadow: [
             BoxShadow(
-                color: settings['secondaryColor'],
+                color: Color(settings.get('secondaryColor')),
                 offset: Offset(3, 3),
                 blurRadius: 2)
           ]),
@@ -325,7 +327,8 @@ class _TradingItemsState extends State<TradingItems> {
             message: "No one is selling this item at the moment",
             child: Text(
               "0",
-              style: TextStyle(color: settings['secondaryColor'], fontSize: 12),
+              style: TextStyle(
+                  color: Color(settings.get('secondaryColor')), fontSize: 12),
             ),
           ));
     }
@@ -367,7 +370,8 @@ class _TradingItemsState extends State<TradingItems> {
           message: "No one is buying this item at the moment",
           child: Text(
             "0",
-            style: TextStyle(color: settings['secondaryColor'], fontSize: 12),
+            style: TextStyle(
+                color: Color(settings.get('secondaryColor')), fontSize: 12),
           ),
         ),
       );
@@ -380,32 +384,40 @@ class _TradingItemsState extends State<TradingItems> {
         future: renderItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data.isNotEmpty) {
+              snapshot.data.length > 1) {
             return SingleChildScrollView(
               child: Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  children: snapshot.data,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      children: snapshot.data,
+                    ),
+                  ],
                 ),
               ),
             );
           } else if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data.isEmpty) {
+              snapshot.hasData) {
             return Center(
               child: RawMaterialButton(
                 child: Text(
                   "Nothing avaiable to display!\nTry changing some filters?",
                   style: TextStyle(
-                      color: settings['secondaryColor'], fontSize: 20),
+                      color: Color(settings.get('secondaryColor')),
+                      fontSize: 20),
                 ),
                 onPressed: () => Scaffold.of(context).openEndDrawer(),
               ),
             );
           } else {
             return Container(
-              color: settings['primaryColor'],
+              color: Color(settings.get('primaryColor')),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -415,7 +427,7 @@ class _TradingItemsState extends State<TradingItems> {
                       message:
                           "If this is taking too long, please press Refresh.",
                       child: CircularProgressIndicator(
-                        backgroundColor: settings['secondaryColor'],
+                        backgroundColor: Color(settings.get('secondaryColor')),
                         strokeWidth: 8,
                       ),
                     ),

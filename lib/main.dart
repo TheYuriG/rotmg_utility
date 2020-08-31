@@ -1,23 +1,42 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'account.dart';
 import 'dailies.dart';
 import 'trading.dart';
 import 'package:web_scraper/web_scraper.dart';
 import 'data.dart';
+import 'package:path_provider_windows/path_provider_windows.dart' as windows;
 
 // webScrapper define qual dominio será usado para puxar informação.
 final webScraper = WebScraper('https://www.realmeye.com');
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var pathProvider;
+  if (Platform.isAndroid) {
+    pathProvider = (await getApplicationSupportDirectory()).path;
+  } else if (Platform.isWindows) {
+    pathProvider =
+        (await windows.PathProviderWindows().getApplicationSupportPath());
+  }
+  Hive.init(pathProvider);
+  await Hive.openBox("settings");
+  try {
+    settings.get('whiteTheme');
+  } catch (e) {
+    settings.put('whiteTheme', true);
+    settings.put('primaryColor', 0xFFE3F2FD);
+    settings.put('secondaryColor', 0xFF1976D2);
+  }
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
+    return MaterialApp(home: MyHomePage());
   }
 }
 
@@ -31,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Widget themeSelector() {
-    if (settings['whiteTheme'] == false) {
+    if (settings.get('whiteTheme') == false) {
       return Container(
         margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -48,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onPressed: () {
                 setState(() {
-                  settings['whiteTheme'] = true;
-                  settings['primaryColor'] = Colors.blue[100];
-                  settings['secondaryColor'] = Colors.blue[700];
+                  settings.put('whiteTheme', true);
+                  settings.put('primaryColor', 0xFFBBDEFB);
+                  settings.put('secondaryColor', 0xFF1976D2);
                 });
               }),
         ),
@@ -72,9 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onPressed: () {
                 setState(() {
-                  settings['whiteTheme'] = false;
-                  settings['primaryColor'] = Colors.black;
-                  settings['secondaryColor'] = Colors.grey[700];
+                  settings.put('whiteTheme', false);
+                  settings.put('primaryColor', 0xFF000000);
+                  settings.put('secondaryColor', 0xFF616161);
                 });
               }),
         ),
@@ -88,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: settings['whiteTheme'] == true
+          color: settings.get('whiteTheme') == true
               ? Colors.blue[200]
               : Colors.grey[900],
           child: Center(
@@ -97,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 "Welcome to\nRotMG Utility!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: settings['secondaryColor'],
+                    color: Color(settings.get('secondaryColor')),
                     fontFamily: "PS2P",
                     fontSize: 20),
               ),
@@ -122,9 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 3, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
+                    border: Border.all(
+                      width: 3,
+                      color: Color(settings.get('secondaryColor')),
+                    ),
+                    color: Color(settings.get('primaryColor')),
                     borderRadius: BorderRadius.all(Radius.circular(12.0)),
                   ),
                   child: Tooltip(
@@ -136,12 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(
                           Icons.swap_horizontal_circle,
                           size: 25,
-                          color: settings['secondaryColor'],
+                          color: Color(settings.get('secondaryColor')),
                         ),
                         Text(
                           "Trading Center",
                           style: TextStyle(
-                              color: settings['secondaryColor'],
+                              color: Color(settings.get('secondaryColor')),
                               fontFamily: "PS2P",
                               fontSize: 12),
                         ),
@@ -163,9 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 3, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
+                    border: Border.all(
+                        width: 3, color: Color(settings.get('secondaryColor'))),
+                    color: Color(settings.get('primaryColor')),
                     borderRadius: BorderRadius.all(Radius.circular(12.0)),
                   ),
                   child: Tooltip(
@@ -177,13 +198,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(
                           Icons.person,
                           size: 25,
-                          color: settings['secondaryColor'],
+                          color: Color(settings.get('secondaryColor')),
                         ),
                         SizedBox(width: 5),
                         Text(
                           "Account Information",
                           style: TextStyle(
-                              color: settings['secondaryColor'],
+                              color: Color(settings.get('secondaryColor')),
                               fontFamily: "PS2P",
                               fontSize: 12),
                         ),
@@ -213,9 +234,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 3, color: settings['secondaryColor']),
-                    color: settings['primaryColor'],
+                    border: Border.all(
+                        width: 3, color: Color(settings.get('secondaryColor'))),
+                    color: Color(settings.get('primaryColor')),
                     borderRadius: BorderRadius.all(Radius.circular(12.0)),
                   ),
                   child: Tooltip(
@@ -227,13 +248,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(
                           Icons.calendar_today,
                           size: 25,
-                          color: settings['secondaryColor'],
+                          color: Color(settings.get('secondaryColor')),
                         ),
                         SizedBox(width: 5),
                         Text(
                           "Dailies Tracker",
                           style: TextStyle(
-                              color: settings['secondaryColor'],
+                              color: Color(settings.get('secondaryColor')),
                               fontFamily: "PS2P",
                               fontSize: 12),
                         ),
